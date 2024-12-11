@@ -1,14 +1,14 @@
-// import logo from "./logo.svg";
 import "App.css";
 import { Provider } from "hooks/useMst";
 import { rootStore } from "mst/rootstore";
-
-import Header from "components/Header";
+import Toolbar from "components/Toolbar";
+import MainContent from "components/MainContent";
 
 function App() {
   return (
     <Provider value={rootStore.create()}>
-      <Header />
+      <Toolbar />
+      <MainContent />
     </Provider>
   );
 }

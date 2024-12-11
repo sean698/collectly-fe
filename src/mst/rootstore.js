@@ -1,16 +1,26 @@
-import { types } from "mobx-state-tree";
+import { types, flow } from "mobx-state-tree";
+import { RentalStore } from "mst/rentalStore";
 
-const { string, optional } = types;
+const { string, optional, boolean } = types;
 
 export const rootStore = types
   .model({
-    userEmail: optional(string, ''),
+    userEmail: optional(string, ""),
+    isAppInitialized: optional(boolean, false),
+    rentalStore: optional(RentalStore, {}),
   })
   .actions((self) => ({
-    // Define actions to modify the store here
+    afterCreate: flow(function* () {
+      yield self.initializeApp();
+    }),
+    initializeApp: flow(function* () {
+      try {
+        yield self.rentalStore.fetchListings();
+      } catch (error) {
+        console.error("Failed to initialize:", error);
+      }
+    }),
   }))
   .views((self) => ({
     // Define computed values and views here
   }));
-
-
