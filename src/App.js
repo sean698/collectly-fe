@@ -2,15 +2,16 @@ import "App.css";
 import { Provider } from "hooks/useMst";
 import { rootStore } from "mst/rootstore";
 import Toolbar from "components/Toolbar";
-import MainContent from "components/MainContent";
+import { observer } from "mobx-react-lite";
+import MainBody from "components/MainBody";
 
 function App() {
   return (
     <Provider value={rootStore.create()}>
       <Toolbar />
-      <MainContent />
+      <MainBody />
     </Provider>
   );
 }
 
-export default App;
+export default observer(App);

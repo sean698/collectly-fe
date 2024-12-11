@@ -7,9 +7,10 @@ import {
   Button,
   IconButton,
 } from "@mui/material";
+import { observer } from "mobx-react-lite";
 import { Menu as MenuIcon } from "@mui/icons-material";
 
-export default function Toolbar() {
+function Toolbar() {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
@@ -32,3 +33,5 @@ export default function Toolbar() {
     </Box>
   );
 }
+
+export default observer(Toolbar);

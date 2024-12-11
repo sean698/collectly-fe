@@ -1,4 +1,6 @@
 import * as React from "react";
+import { useMst } from "hooks/useMst";
+import { observer } from "mobx-react-lite";
 import {
   Box,
   Container,
@@ -11,36 +13,48 @@ import {
   TableRow,
 } from "@mui/material";
 
-export default function MainContent() {
-  // Sample data - replace with actual data source
-  const rows = [
-    { id: 1, name: "Item 1", location: "Location A", value: "$100" },
-    { id: 2, name: "Item 2", location: "Location B", value: "$200" },
-    { id: 3, name: "Item 3", location: "Location C", value: "$300" },
-  ];
+const tableCellStyles = {
+  textAlign: "center",
+};
+
+function MainContent() {
+  const { rentalStore } = useMst();
+  const { filteredRentalListings } = rentalStore;
+  console.log(filteredRentalListings);
 
   return (
-    // <Container maxWidth="lg">
-    <Container maxWidth={false}>
+    <Container maxWidth="lg">
       <Box sx={{ mt: 4, mb: 4 }}>
         <Paper sx={{ p: 2 }}>
           <TableContainer>
             <Table>
               <TableHead>
                 <TableRow>
-                  <TableCell>ID</TableCell>
-                  <TableCell>Name</TableCell>
-                  <TableCell>Location</TableCell>
-                  <TableCell>Value</TableCell>
+                  <TableCell sx={tableCellStyles}>Title</TableCell>
+                  <TableCell sx={tableCellStyles}>Location</TableCell>
+                  <TableCell sx={tableCellStyles}>Price</TableCell>
+                  <TableCell sx={tableCellStyles}>Source</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
-                {rows.map((row) => (
-                  <TableRow key={row.id}>
-                    <TableCell>{row.id}</TableCell>
-                    <TableCell>{row.name}</TableCell>
-                    <TableCell>{row.location}</TableCell>
-                    <TableCell>{row.value}</TableCell>
+                {filteredRentalListings.map((row) => (
+                  <TableRow
+                    key={row.id}
+                    hover
+                    onClick={() => window.open(row.url, "_blank")}
+                    sx={{ cursor: "pointer" }}
+                  >
+                    <TableCell
+                      sx={{
+                        maxWidth: "300px",
+                        textOverflow: "ellipsis",
+                      }}
+                    >
+                      {row.title}
+                    </TableCell>
+                    <TableCell sx={tableCellStyles}>{row.location}</TableCell>
+                    <TableCell sx={tableCellStyles}>{row.price}</TableCell>
+                    <TableCell sx={tableCellStyles}>{row.source}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>
@@ -51,3 +65,5 @@ export default function MainContent() {
     </Container>
   );
 }
+
+export default observer(MainContent);

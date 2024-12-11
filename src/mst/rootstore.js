@@ -14,11 +14,8 @@ export const rootStore = types
       yield self.initializeApp();
     }),
     initializeApp: flow(function* () {
-      try {
-        yield self.rentalStore.fetchListings();
-      } catch (error) {
-        console.error("Failed to initialize:", error);
-      }
+      yield self.rentalStore.fetchListings();
+      self.isAppInitialized = true;
     }),
   }))
   .views((self) => ({
