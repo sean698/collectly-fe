@@ -8,6 +8,7 @@ const { map, model, optional, number } = types;
 export const RentalStore = model({
   vanpeople: optional(map(RentalListing), {}),
   craigslist: optional(map(RentalListing), {}),
+  kijiji: optional(map(RentalListing), {}),
   selectedPriceRange: optional(
     model({
       min: optional(number, 0),
@@ -18,13 +19,20 @@ export const RentalStore = model({
 })
   .actions((self) => ({
     fetchListings: flow(function* () {
-      const { vanpeople, craigslist } = yield getRentalListings();
-      vanpeople.forEach((listing) => {
-        self.vanpeople.put(RentalListing.create(listing));
-      });
-      craigslist.forEach((listing) => {
-        self.craigslist.put(RentalListing.create(listing));
-      });
+      try {
+        const { vanpeople, craigslist, kijiji } = yield getRentalListings();
+        vanpeople.forEach((listing) => {
+          self.vanpeople.put(RentalListing.create(listing));
+        });
+        craigslist.forEach((listing) => {
+          self.craigslist.put(RentalListing.create(listing));
+        });
+        kijiji.forEach((listing) => {
+          self.kijiji.put(RentalListing.create(listing));
+        });
+      } catch (error) {
+        console.log(error);
+      }
     }),
     setSelectedPriceRange(min, max) {
       self.selectedPriceRange = { min, max };
@@ -37,8 +45,15 @@ export const RentalStore = model({
     get craigslistListings() {
       return values(self.craigslist);
     },
+    get kijijiListings() {
+      return values(self.kijiji);
+    },
     get allRentalListings() {
-      return [...self.vanpeopleListings, ...self.craigslistListings];
+      return [
+        ...self.vanpeopleListings,
+        ...self.craigslistListings,
+        ...self.kijijiListings,
+      ];
     },
     get filteredRentalListings() {
       if (

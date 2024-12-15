@@ -6,7 +6,6 @@ export const getRentalListings = async () => {
   const source = SERVER_MAP.TREASURE_FINDER;
   const route = "/rentalListings";
   const url = createUrl(source, route);
-  console.log(url);
   const response = await axios.get(url);
   return response.data;
 };

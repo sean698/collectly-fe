@@ -30,6 +30,7 @@ function MainContent() {
             <Table>
               <TableHead>
                 <TableRow>
+                  <TableCell sx={tableCellStyles}>Image</TableCell>
                   <TableCell sx={tableCellStyles}>Title</TableCell>
                   <TableCell sx={tableCellStyles}>Location</TableCell>
                   <TableCell sx={tableCellStyles}>Price</TableCell>
@@ -44,6 +45,18 @@ function MainContent() {
                     onClick={() => window.open(row.url, "_blank")}
                     sx={{ cursor: "pointer" }}
                   >
+                    <TableCell sx={tableCellStyles}>
+                      <img
+                        src={row?.imageUrl}
+                        alt=""
+                        style={{
+                          width: "200px",
+                          height: "200px",
+                          objectFit: "cover",
+                          borderRadius: "4px",
+                        }}
+                      />
+                    </TableCell>
                     <TableCell
                       sx={{
                         maxWidth: "300px",
