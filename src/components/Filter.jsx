@@ -11,25 +11,37 @@ import {
   Select,
   MenuItem,
   Stack,
+  Checkbox,
+  ListItemText,
 } from "@mui/material";
+import { SOURCES, LOCATIONS } from "mst/constants";
 
 function Filter() {
   const { rentalStore } = useMst();
-  const { selectedPriceRange, setSelectedPriceRange } = rentalStore;
+  const {
+    selectedPriceRange,
+    setSelectedPriceRange,
+    selectedSources,
+    setSelectedSources,
+  } = rentalStore;
 
   const handlePriceChange = (type) => (event) => {
     const value = event.target.value === "" ? 0 : Number(event.target.value);
-
     if (type === "min") {
       setSelectedPriceRange(value, selectedPriceRange.max);
     } else {
       setSelectedPriceRange(selectedPriceRange.min, value);
     }
   };
-  console.log(selectedPriceRange);
+
+  const handleSourceChange = (event) => {
+    const value = event.target.value;
+    setSelectedSources(typeof value === "string" ? value.split(",") : value);
+  };
+
   return (
     <Container maxWidth="lg">
-      <Box sx={{ mt: 4 }}>
+      <Box sx={{ mt: 4, minWidth: "250px", maxWidth: "250px" }}>
         <Paper sx={{ p: 2 }}>
           <Stack direction="column" spacing={2}>
             <TextField
@@ -47,19 +59,53 @@ function Filter() {
               fullWidth
             />
             <FormControl fullWidth>
+              <InputLabel>Source</InputLabel>
+              <Select
+                multiple
+                value={selectedSources}
+                onChange={handleSourceChange}
+                renderValue={(selected) => selected.join(", ")}
+                label="Source"
+              >
+                <MenuItem value={SOURCES.VANPEOPLE}>
+                  <Checkbox
+                    checked={selectedSources.includes(SOURCES.VANPEOPLE)}
+                  />
+                  <ListItemText primary="Vanpeople" />
+                </MenuItem>
+                <MenuItem value={SOURCES.CRAIGSLIST}>
+                  <Checkbox
+                    checked={selectedSources.includes(SOURCES.CRAIGSLIST)}
+                  />
+                  <ListItemText primary="Craigslist" />
+                </MenuItem>
+                <MenuItem value={SOURCES.KIJIJI}>
+                  <Checkbox
+                    checked={selectedSources.includes(SOURCES.KIJIJI)}
+                  />
+                  <ListItemText primary="Kijiji" />
+                </MenuItem>
+              </Select>
+            </FormControl>
+            <FormControl fullWidth>
               <InputLabel>Location</InputLabel>
               <Select
-                // value={rentalStore.selectedLocation}
+                multiple
+                value={rentalStore.selectedLocations}
+                onChange={(e) =>
+                  rentalStore.setSelectedLocations(e.target.value)
+                }
+                renderValue={(selected) => selected.join(", ")}
                 label="Location"
-                // onChange={(e) => rentalStore.setSelectedLocation(e.target.value)}
               >
-                <MenuItem value="">
-                  <em>All</em>
-                </MenuItem>
-                <MenuItem value="downtown">Burnaby</MenuItem>
-                <MenuItem value="suburbs">Surry</MenuItem>
-                <MenuItem value="beach">Richmond</MenuItem>
-                <MenuItem value="uptown">Vancouver</MenuItem>
+                {Object.values(LOCATIONS).map((location) => (
+                  <MenuItem key={location} value={location}>
+                    <Checkbox
+                      checked={rentalStore.selectedLocations.includes(location)}
+                    />
+                    <ListItemText primary={location} />
+                  </MenuItem>
+                ))}
               </Select>
             </FormControl>
           </Stack>

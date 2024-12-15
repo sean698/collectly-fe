@@ -4,18 +4,13 @@ import { observer } from "mobx-react-lite";
 import {
   Box,
   Container,
-  Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
+  Card,
+  CardContent,
+  CardMedia,
+  Typography,
+  Grid,
+  CardActionArea,
 } from "@mui/material";
-
-const tableCellStyles = {
-  textAlign: "center",
-};
 
 function MainContent() {
   const { rentalStore } = useMst();
@@ -23,57 +18,80 @@ function MainContent() {
   console.log(filteredRentalListings);
 
   return (
-    <Container maxWidth="lg">
+    <Container maxWidth="xl">
       <Box sx={{ mt: 4, mb: 4 }}>
-        <Paper sx={{ p: 2 }}>
-          <TableContainer>
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell sx={tableCellStyles}>Image</TableCell>
-                  <TableCell sx={tableCellStyles}>Title</TableCell>
-                  <TableCell sx={tableCellStyles}>Location</TableCell>
-                  <TableCell sx={tableCellStyles}>Price</TableCell>
-                  <TableCell sx={tableCellStyles}>Source</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {filteredRentalListings.map((row) => (
-                  <TableRow
-                    key={row.id}
-                    hover
-                    onClick={() => window.open(row.url, "_blank")}
-                    sx={{ cursor: "pointer" }}
-                  >
-                    <TableCell sx={tableCellStyles}>
-                      <img
-                        src={row?.imageUrl}
-                        alt=""
-                        style={{
-                          width: "200px",
-                          height: "200px",
-                          objectFit: "cover",
-                          borderRadius: "4px",
-                        }}
-                      />
-                    </TableCell>
-                    <TableCell
+        <Grid container spacing={2}>
+          {filteredRentalListings.map((listing) => (
+            <Grid item xs={12} sm={6} md={2.4} key={listing.id}>
+              <Card
+                sx={{
+                  height: "100%",
+                  display: "flex",
+                  flexDirection: "column",
+                }}
+              >
+                <CardActionArea
+                  onClick={() => window.open(listing.url, "_blank")}
+                >
+                  <CardMedia
+                    component="img"
+                    height="200"
+                    image={listing.imageUrl || "/imagePlaceholder.jpg"}
+                    alt={listing.title}
+                    sx={{
+                      objectFit: "cover",
+                    }}
+                  />
+                  <CardContent>
+                    <Typography
+                      gutterBottom
+                      variant="subtitle1"
+                      component="div"
                       sx={{
-                        maxWidth: "300px",
+                        overflow: "hidden",
                         textOverflow: "ellipsis",
+                        display: "-webkit-box",
+                        WebkitLineClamp: 2,
+                        WebkitBoxOrient: "vertical",
+                        height: "48px",
+                        lineHeight: "1.2",
                       }}
                     >
-                      {row.title}
-                    </TableCell>
-                    <TableCell sx={tableCellStyles}>{row.location}</TableCell>
-                    <TableCell sx={tableCellStyles}>{row.price}</TableCell>
-                    <TableCell sx={tableCellStyles}>{row.source}</TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </Paper>
+                      {listing.title}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      {listing.location}
+                    </Typography>
+                    <Box
+                      sx={{
+                        mt: 1,
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                      }}
+                    >
+                      <Typography variant="h6" color="primary">
+                        {listing.price ? `$${listing.price}` : "N/A"}
+                      </Typography>
+                      <Typography
+                        variant="caption"
+                        sx={{
+                          backgroundColor: "primary.main",
+                          color: "white",
+                          px: 1,
+                          py: 0.5,
+                          borderRadius: 1,
+                        }}
+                      >
+                        {listing.source}
+                      </Typography>
+                    </Box>
+                  </CardContent>
+                </CardActionArea>
+              </Card>
+            </Grid>
+          ))}
+        </Grid>
       </Box>
     </Container>
   );
