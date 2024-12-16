@@ -2,19 +2,22 @@ import "./App.css";
 import "./styles/tailwind.css";
 import { Provider } from "hooks/useMst";
 import { rootStore } from "mst/rootstore";
-import Toolbar from "components/Toolbar";
 import { observer } from "mobx-react-lite";
-import MainBody from "components/MainBody";
-import MagicUiAnimatedBeam from "components/MagicUiAnimatedBeam.tsx";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Home from "pages/Home";
+import Rentals from "pages/Rentals";
+import Toolbar from "components/Toolbar";
 
 function App() {
   return (
     <Provider value={rootStore.create()}>
-      <div className="tailwind-scope">
-        <MagicUiAnimatedBeam />
-      </div>
-      <Toolbar />
-      <MainBody />
+      <BrowserRouter>
+        <Toolbar />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/housing" element={<Rentals />} />
+        </Routes>
+      </BrowserRouter>
     </Provider>
   );
 }
