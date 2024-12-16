@@ -1,0 +1,6 @@
+/* wrap the tailwind components with this class */
+.tailwind-scope {
+  @tailwind base;
+  @tailwind components;
+  @tailwind utilities;
+}
