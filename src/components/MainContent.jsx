@@ -15,14 +15,37 @@ import {
 function MainContent() {
   const { rentalStore } = useMst();
   const { filteredRentalListings } = rentalStore;
-  console.log(filteredRentalListings);
+  const [displayCount, setDisplayCount] = React.useState(10);
+  const loadMoreRef = React.useRef(null);
+
+  const currentItems = filteredRentalListings.slice(0, displayCount);
+
+  React.useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (
+          entries[0].isIntersecting &&
+          displayCount < filteredRentalListings.length
+        ) {
+          setDisplayCount((prev) => prev + 10);
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    if (loadMoreRef.current) {
+      observer.observe(loadMoreRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, [displayCount, filteredRentalListings.length]);
 
   return (
-    <Container maxWidth="xl">
+    <Container maxWidth="lg">
       <Box sx={{ mt: 4, mb: 4 }}>
         <Grid container spacing={2}>
-          {filteredRentalListings.map((listing) => (
-            <Grid item xs={12} sm={6} md={2.4} key={listing.id}>
+          {currentItems.map((listing) => (
+            <Grid item xs={12} sm={6} md={3} key={listing.id}>
               <Card
                 sx={{
                   height: "100%",
@@ -70,14 +93,19 @@ function MainContent() {
                         alignItems: "center",
                       }}
                     >
-                      <Typography variant="h6" color="primary">
+                      <Typography
+                        variant="h6"
+                        color="primary"
+                        sx={{ fontWeight: "bold" }}
+                      >
                         {listing.price ? `$${listing.price}` : "N/A"}
                       </Typography>
                       <Typography
                         variant="caption"
                         sx={{
-                          backgroundColor: "primary.main",
-                          color: "white",
+                          fontWeight: "bold",
+                          backgroundColor: "backdrop.main",
+                          color: "customYellow.main",
                           px: 1,
                           py: 0.5,
                           borderRadius: 1,
@@ -92,6 +120,22 @@ function MainContent() {
             </Grid>
           ))}
         </Grid>
+
+        {displayCount < filteredRentalListings.length && (
+          <Box
+            ref={loadMoreRef}
+            sx={{
+              width: "100%",
+              height: "50px",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              mt: 4,
+            }}
+          >
+            <Typography color="text.secondary">Loading more...</Typography>
+          </Box>
+        )}
       </Box>
     </Container>
   );

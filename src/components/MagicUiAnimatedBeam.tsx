@@ -35,81 +35,83 @@ export default function MagicUiAnimatedBeam() {
   const div7Ref = useRef<HTMLDivElement>(null);
 
   return (
-    <div
-      className="relative flex h-[500px] w-full items-center justify-center overflow-hidden bg-background p-10"
-      ref={containerRef}
-    >
-      <div className="flex size-full flex-col max-w-lg max-h-[200px] items-stretch justify-between gap-10">
-        <div className="flex flex-row items-center justify-between">
-          <Circle ref={div1Ref}>
-            <Icons.VanPeople />
-          </Circle>
-          <Circle ref={div5Ref}>
-            <Icons.RedNote />
-          </Circle>
+    <div className="tailwind-scope">
+      <div
+        className="relative flex h-[500px] w-full items-center justify-center overflow-hidden bg-background p-10"
+        ref={containerRef}
+      >
+        <div className="flex size-full flex-col max-w-lg max-h-[200px] items-stretch justify-between gap-10">
+          <div className="flex flex-row items-center justify-between">
+            <Circle ref={div1Ref}>
+              <Icons.VanPeople />
+            </Circle>
+            <Circle ref={div5Ref}>
+              <Icons.RedNote />
+            </Circle>
+          </div>
+          <div className="flex flex-row items-center justify-between">
+            <Circle ref={div2Ref}>
+              <Icons.Kijiji />
+            </Circle>
+            <Circle ref={div4Ref} className="size-16">
+              <Icons.Collectly />
+            </Circle>
+            <Circle ref={div6Ref}>
+              <Icons.Facebook />
+            </Circle>
+          </div>
+          <div className="flex flex-row items-center justify-between">
+            <Circle ref={div3Ref}>
+              <Icons.Craigslist />
+            </Circle>
+            <Circle ref={div7Ref}>
+              <Icons.VanSky />
+            </Circle>
+          </div>
         </div>
-        <div className="flex flex-row items-center justify-between">
-          <Circle ref={div2Ref}>
-            <Icons.Kijiji />
-          </Circle>
-          <Circle ref={div4Ref} className="size-16">
-            <Icons.Collectly />
-          </Circle>
-          <Circle ref={div6Ref}>
-            <Icons.Facebook />
-          </Circle>
-        </div>
-        <div className="flex flex-row items-center justify-between">
-          <Circle ref={div3Ref}>
-            <Icons.Craigslist />
-          </Circle>
-          <Circle ref={div7Ref}>
-            <Icons.VanSky />
-          </Circle>
-        </div>
-      </div>
 
-      <AnimatedBeam
-        containerRef={containerRef}
-        fromRef={div1Ref}
-        toRef={div4Ref}
-        curvature={-75}
-        endYOffset={-10}
-      />
-      <AnimatedBeam
-        containerRef={containerRef}
-        fromRef={div2Ref}
-        toRef={div4Ref}
-      />
-      <AnimatedBeam
-        containerRef={containerRef}
-        fromRef={div3Ref}
-        toRef={div4Ref}
-        curvature={75}
-        endYOffset={10}
-      />
-      <AnimatedBeam
-        containerRef={containerRef}
-        fromRef={div5Ref}
-        toRef={div4Ref}
-        curvature={-75}
-        endYOffset={-10}
-        reverse
-      />
-      <AnimatedBeam
-        containerRef={containerRef}
-        fromRef={div6Ref}
-        toRef={div4Ref}
-        reverse
-      />
-      <AnimatedBeam
-        containerRef={containerRef}
-        fromRef={div7Ref}
-        toRef={div4Ref}
-        curvature={75}
-        endYOffset={10}
-        reverse
-      />
+        <AnimatedBeam
+          containerRef={containerRef}
+          fromRef={div1Ref}
+          toRef={div4Ref}
+          curvature={-75}
+          endYOffset={-10}
+        />
+        <AnimatedBeam
+          containerRef={containerRef}
+          fromRef={div2Ref}
+          toRef={div4Ref}
+        />
+        <AnimatedBeam
+          containerRef={containerRef}
+          fromRef={div3Ref}
+          toRef={div4Ref}
+          curvature={75}
+          endYOffset={10}
+        />
+        <AnimatedBeam
+          containerRef={containerRef}
+          fromRef={div5Ref}
+          toRef={div4Ref}
+          curvature={-75}
+          endYOffset={-10}
+          reverse
+        />
+        <AnimatedBeam
+          containerRef={containerRef}
+          fromRef={div6Ref}
+          toRef={div4Ref}
+          reverse
+        />
+        <AnimatedBeam
+          containerRef={containerRef}
+          fromRef={div7Ref}
+          toRef={div4Ref}
+          curvature={75}
+          endYOffset={10}
+          reverse
+        />
+      </div>
     </div>
   );
 }

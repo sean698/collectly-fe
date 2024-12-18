@@ -4,7 +4,7 @@ import { Box } from "@mui/material";
 
 function Home() {
   return (
-    <>
+    <Box sx={{ mt: 10 }}>
       <Box
         sx={{
           width: "100%",
@@ -18,10 +18,8 @@ function Home() {
       >
         <TypewriterEffect />
       </Box>
-      <div className="tailwind-scope">
-        <MagicUiAnimatedBeam />
-      </div>
-    </>
+      <MagicUiAnimatedBeam />
+    </Box>
   );
 }
 
