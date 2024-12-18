@@ -1,1 +1,1 @@
-# Treasure Finder
+# Collectly

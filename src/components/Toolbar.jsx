@@ -4,17 +4,14 @@ import {
   Box,
   Toolbar as MuiToolbar,
   Button,
-  IconButton,
   ToggleButtonGroup,
   ToggleButton,
 } from "@mui/material";
 import { observer } from "mobx-react-lite";
-import { Menu as MenuIcon } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import HomeIcon from "@mui/icons-material/Home";
 import ApartmentIcon from "@mui/icons-material/Apartment";
 import ShoppingBagIcon from "@mui/icons-material/ShoppingBag";
-import PersonIcon from "@mui/icons-material/Person";
 
 function Toolbar() {
   const navigate = useNavigate();
@@ -29,21 +26,20 @@ function Toolbar() {
       >
         <MuiToolbar sx={{ display: "flex", justifyContent: "space-between" }}>
           <Box sx={{ display: "flex", alignItems: "center" }}>
-            <IconButton
-              size="large"
-              edge="start"
-              color="inherit"
-              aria-label="menu"
-              sx={{ mr: 2 }}
-            >
-              <MenuIcon />
-            </IconButton>
+            <img
+              src="/logo.png"
+              alt="Logo"
+              style={{
+                height: "50px",
+                marginRight: "20px",
+                cursor: "pointer",
+              }}
+              onClick={() => navigate("/")}
+            />
             <ToggleButtonGroup
-              // value={location.pathname}
               exclusive
               onChange={(_, newPath) => navigate(newPath)}
               size="small"
-              className="ml-4"
               sx={{
                 "& .MuiToggleButton-root": {
                   color: "white",
