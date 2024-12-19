@@ -1,6 +1,6 @@
 import { types } from "mobx-state-tree";
 
-const { string, optional, number, model, identifier } = types;
+const { string, optional, number, model, identifier, maybeNull } = types;
 
 export const RentalListing = model({
   id: identifier,
@@ -9,7 +9,7 @@ export const RentalListing = model({
   url: string,
   price: number,
   source: string,
-  imageUrl: optional(string, ""),
+  imageUrl: optional(maybeNull(string), null),
 })
   .actions((self) => ({}))
   .views((self) => ({}));

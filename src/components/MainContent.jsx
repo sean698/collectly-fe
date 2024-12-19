@@ -54,6 +54,12 @@ function MainContent() {
                 }}
               >
                 <CardActionArea
+                  sx={{
+                    height: "100%",
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "stretch",
+                  }}
                   onClick={() => window.open(listing.url, "_blank")}
                 >
                   <CardMedia
@@ -65,7 +71,15 @@ function MainContent() {
                       objectFit: "cover",
                     }}
                   />
-                  <CardContent>
+                  <CardContent
+                    sx={{
+                      flex: 1,
+                      display: "flex",
+                      flexDirection: "column",
+                      padding: 2,
+                      "&:last-child": { paddingBottom: 2 },
+                    }}
+                  >
                     <Typography
                       gutterBottom
                       variant="subtitle1"
@@ -87,7 +101,8 @@ function MainContent() {
                     </Typography>
                     <Box
                       sx={{
-                        mt: 1,
+                        mt: "auto",
+                        pt: 1,
                         display: "flex",
                         justifyContent: "space-between",
                         alignItems: "center",
