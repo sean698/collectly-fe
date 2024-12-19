@@ -35,8 +35,14 @@ export const rootStore = types
       yield self.initializeApp();
     }),
     initializeApp: flow(function* () {
-      yield self.rentalStore.fetchListings();
-      self.isAppInitialized = true;
+      try {
+        self.isAppInitialized = false;
+        yield self.rentalStore.fetchListings();
+        self.isAppInitialized = true;
+      } catch (error) {
+        self.isAppInitialized = true;
+        console.error("Failed to initialize app", error);
+      }
     }),
     showSnackbar(message, severity) {
       self.snackbar.show(message, severity);

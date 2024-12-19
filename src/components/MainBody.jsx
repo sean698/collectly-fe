@@ -3,8 +3,28 @@ import { Box } from "@mui/material";
 import MainContent from "components/MainContent";
 import Filter from "components/Filter";
 import { observer } from "mobx-react-lite";
+import { useMst } from "hooks/useMst";
+import { ScaleLoader } from "react-spinners";
 
 function MainBody() {
+  const { isAppInitialized } = useMst();
+
+  if (!isAppInitialized) {
+    return (
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          minHeight: "calc(100vh - 160px)",
+        }}
+      >
+        <ScaleLoader color="#FCE303" />
+      </Box>
+    );
+  }
+
   return (
     <Box
       sx={{
@@ -12,25 +32,8 @@ function MainBody() {
         width: "100%",
       }}
     >
-      <Box
-        sx={{
-          position: "fixed",
-          left: "calc((100% - 80%) / 2 - 200px)",
-          top: 70,
-          minWidth: "240px",
-          height: "fit-content",
-        }}
-      >
-        <Filter />
-      </Box>
-      <Box
-        sx={{
-          width: "80%",
-          margin: "0 auto",
-        }}
-      >
-        <MainContent />
-      </Box>
+      <Filter />
+      <MainContent />
     </Box>
   );
 }

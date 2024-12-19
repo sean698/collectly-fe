@@ -15,7 +15,7 @@ import {
 function MainContent() {
   const { rentalStore } = useMst();
   const { filteredRentalListings } = rentalStore;
-  const [displayCount, setDisplayCount] = React.useState(10);
+  const [displayCount, setDisplayCount] = React.useState(12);
   const loadMoreRef = React.useRef(null);
 
   const currentItems = filteredRentalListings.slice(0, displayCount);
@@ -27,7 +27,7 @@ function MainContent() {
           entries[0].isIntersecting &&
           displayCount < filteredRentalListings.length
         ) {
-          setDisplayCount((prev) => prev + 10);
+          setDisplayCount((prev) => prev + 12);
         }
       },
       { threshold: 0.1 }
