@@ -15,21 +15,20 @@ import ShoppingBagIcon from "@mui/icons-material/ShoppingBag";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import PersonIcon from "@mui/icons-material/Person";
 import FeedbackIcon from "@mui/icons-material/Feedback";
+import { useSnackbar } from "hooks/useMst";
 
 function Toolbar() {
   const navigate = useNavigate();
+  const { showSnackbar } = useSnackbar();
 
   const handleExternalLink = (url) => {
     window.open(url, "_blank");
   };
 
-  const handleFeedback = () => {
-    const email = "shiyuanm000@gmail.com"; // 替换成你的邮箱
-    const subject = "Feedback for Collectly";
-
-    window.location.href = `mailto:${email}?subject=${encodeURIComponent(
-      subject
-    )}`;
+  const handleFeedback = async () => {
+    const email = "shiyuanm000@gmail.com";
+    await navigator.clipboard.writeText(email);
+    showSnackbar("Email copied to clipboard!");
   };
 
   return (
@@ -83,7 +82,7 @@ function Toolbar() {
             </Typography>
           </Box>
 
-          <Box sx={{ display: "fl1", gap: 2 }}>
+          <Box sx={{ display: "flex", gap: 2 }}>
             <Box
               onClick={() => navigate("/housing")}
               sx={{
