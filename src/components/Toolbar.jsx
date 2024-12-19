@@ -15,11 +15,9 @@ import ShoppingBagIcon from "@mui/icons-material/ShoppingBag";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import PersonIcon from "@mui/icons-material/Person";
 import FeedbackIcon from "@mui/icons-material/Feedback";
-import { useSnackbar } from "hooks/useMst";
 
 function Toolbar() {
   const navigate = useNavigate();
-  const { showSnackbar } = useSnackbar();
 
   const handleExternalLink = (url) => {
     window.open(url, "_blank");
@@ -28,7 +26,6 @@ function Toolbar() {
   const handleFeedback = async () => {
     const email = "shiyuanm000@gmail.com";
     await navigator.clipboard.writeText(email);
-    showSnackbar("Email copied to clipboard!");
   };
 
   return (
@@ -146,7 +143,7 @@ function Toolbar() {
             </IconButton>
           </Tooltip>
 
-          <Tooltip title="Portfolio">
+          <Tooltip title="About the Developer">
             <IconButton
               onClick={() =>
                 handleExternalLink("https://portfolio-website-2a3ba.web.app/")
@@ -157,7 +154,7 @@ function Toolbar() {
             </IconButton>
           </Tooltip>
 
-          <Tooltip title="Send Feedback">
+          <Tooltip title="Feedback">
             <IconButton onClick={handleFeedback} sx={{ color: "white" }}>
               <FeedbackIcon />
             </IconButton>

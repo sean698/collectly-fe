@@ -10,10 +10,3 @@ export const useMst = () => {
   }
   return rootStore;
 };
-
-export const useSnackbar = () => {
-  const rootStore = useMst();
-  return {
-    showSnackbar: rootStore.showSnackbar,
-  };
-};

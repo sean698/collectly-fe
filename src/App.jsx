@@ -10,7 +10,6 @@ import Toolbar from "components/Toolbar";
 import BackgroundGradient from "components/BackgroundGradient";
 import { ThemeProvider } from "@mui/material/styles";
 import theme from "./theme";
-import GlobalSnackbar from "components/GlobalSnackbar";
 
 function App() {
   return (
@@ -23,7 +22,6 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/housing" element={<Rentals />} />
           </Routes>
-          <GlobalSnackbar />
         </BrowserRouter>
       </Provider>
     </ThemeProvider>
