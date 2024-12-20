@@ -70,7 +70,7 @@ function Toolbar() {
                 display: "flex",
                 alignItems: "center",
                 cursor: "pointer",
-                gap: 1,
+                gap: 2,
               }}
             >
               <img
