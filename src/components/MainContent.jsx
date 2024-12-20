@@ -12,6 +12,15 @@ import {
   CardActionArea,
 } from "@mui/material";
 
+const labelStyle = {
+  // fontWeight: "bold",
+  backgroundColor: "backdrop.main",
+  color: "customYellow.main",
+  px: 1,
+  py: 0.3,
+  borderRadius: 1,
+};
+
 function MainContent() {
   const { rentalStore } = useMst();
   const { filteredRentalListings } = rentalStore;
@@ -92,17 +101,40 @@ function MainContent() {
                         WebkitBoxOrient: "vertical",
                         height: "48px",
                         lineHeight: "1.2",
+                        mb: 1,
                       }}
                     >
                       {listing.title}
                     </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                      {listing.location}
-                    </Typography>
+
+                    <Box
+                      sx={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                        mb: 1,
+                      }}
+                    >
+                      <Typography variant="body2" color="text.secondary">
+                        {listing.location}
+                      </Typography>
+                      <Typography
+                        variant="caption"
+                        sx={{
+                          backgroundColor: "backdrop.main",
+                          color: "grey.100",
+                          px: 1,
+                          py: 0.3,
+                          borderRadius: 1,
+                        }}
+                      >
+                        {listing.source}
+                      </Typography>
+                    </Box>
+
                     <Box
                       sx={{
                         mt: "auto",
-                        pt: 1,
                         display: "flex",
                         justifyContent: "space-between",
                         alignItems: "center",
@@ -115,19 +147,24 @@ function MainContent() {
                       >
                         {listing.price ? `$${listing.price}` : "N/A"}
                       </Typography>
-                      <Typography
-                        variant="caption"
-                        sx={{
-                          fontWeight: "bold",
-                          backgroundColor: "backdrop.main",
-                          color: "customYellow.main",
-                          px: 1,
-                          py: 0.5,
-                          borderRadius: 1,
-                        }}
-                      >
-                        {listing.source}
-                      </Typography>
+
+                      <Box sx={{ display: "flex", gap: 0.5 }}>
+                        {listing.bedrooms && (
+                          <Typography variant="caption" sx={labelStyle}>
+                            {listing.bedrooms}BR
+                          </Typography>
+                        )}
+                        {listing.bathrooms && (
+                          <Typography variant="caption" sx={labelStyle}>
+                            {listing.bathrooms}BA
+                          </Typography>
+                        )}
+                        {listing.type && (
+                          <Typography variant="caption" sx={labelStyle}>
+                            {listing.type}
+                          </Typography>
+                        )}
+                      </Box>
                     </Box>
                   </CardContent>
                 </CardActionArea>

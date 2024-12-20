@@ -14,7 +14,7 @@ import {
   Checkbox,
   ListItemText,
 } from "@mui/material";
-import { SOURCES, LOCATIONS } from "mst/constants";
+import { SOURCES, LOCATIONS, HOUSE_TYPES } from "mst/constants";
 
 function Filter() {
   const { rentalStore } = useMst();
@@ -23,6 +23,10 @@ function Filter() {
     setSelectedPriceRange,
     selectedSources,
     setSelectedSources,
+    selectedBedrooms,
+    setSelectedBedrooms,
+    selectedHouseTypes,
+    setSelectedHouseTypes,
   } = rentalStore;
 
   const handlePriceChange = (type) => (event) => {
@@ -32,11 +36,6 @@ function Filter() {
     } else {
       setSelectedPriceRange(selectedPriceRange.min, value);
     }
-  };
-
-  const handleSourceChange = (event) => {
-    const value = event.target.value;
-    setSelectedSources(typeof value === "string" ? value.split(",") : value);
   };
 
   return (
@@ -68,32 +67,56 @@ function Filter() {
                 fullWidth
               />
               <FormControl fullWidth>
+                <InputLabel>Bedrooms</InputLabel>
+                <Select
+                  value={selectedBedrooms}
+                  onChange={(e) => setSelectedBedrooms([e.target.value])}
+                  label="Bedrooms"
+                  disabled
+                >
+                  <MenuItem value="">
+                    <em>Any</em>
+                  </MenuItem>
+                  {[0, 1, 2, 3, 4, 5].map((num) => (
+                    <MenuItem key={num} value={num}>
+                      {num === 0 ? "Studio" : `${num} BR`}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+              <FormControl fullWidth>
+                <InputLabel>House Type</InputLabel>
+                <Select
+                  value={selectedHouseTypes}
+                  onChange={(e) => setSelectedHouseTypes([e.target.value])}
+                  label="House Type"
+                  disabled
+                >
+                  <MenuItem value="">
+                    <em>Any</em>
+                  </MenuItem>
+                  {Object.values(HOUSE_TYPES).map((type) => (
+                    <MenuItem key={type} value={type}>
+                      {type}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+              <FormControl fullWidth>
                 <InputLabel>Source</InputLabel>
                 <Select
                   multiple
                   value={selectedSources}
-                  onChange={handleSourceChange}
+                  onChange={(e) => setSelectedSources(e.target.value)}
                   renderValue={(selected) => selected.join(", ")}
                   label="Source"
                 >
-                  <MenuItem value={SOURCES.VANPEOPLE}>
-                    <Checkbox
-                      checked={selectedSources.includes(SOURCES.VANPEOPLE)}
-                    />
-                    <ListItemText primary="Vanpeople" />
-                  </MenuItem>
-                  <MenuItem value={SOURCES.CRAIGSLIST}>
-                    <Checkbox
-                      checked={selectedSources.includes(SOURCES.CRAIGSLIST)}
-                    />
-                    <ListItemText primary="Craigslist" />
-                  </MenuItem>
-                  <MenuItem value={SOURCES.KIJIJI}>
-                    <Checkbox
-                      checked={selectedSources.includes(SOURCES.KIJIJI)}
-                    />
-                    <ListItemText primary="Kijiji" />
-                  </MenuItem>
+                  {Object.entries(SOURCES).map(([key, value]) => (
+                    <MenuItem key={value} value={value}>
+                      <Checkbox checked={selectedSources.includes(value)} />
+                      <ListItemText primary={key.toLowerCase()} />
+                    </MenuItem>
+                  ))}
                 </Select>
               </FormControl>
               <FormControl fullWidth>

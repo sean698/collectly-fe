@@ -19,3 +19,12 @@ export const LOCATIONS = {
   SURREY: "Surrey",
   OTHERS: "Others",
 };
+
+export const HOUSE_TYPES = {
+  APARTMENT: "Apartment",
+  HOUSE: "House",
+  TOWNHOUSE: "Townhouse",
+  CONDO: "Condo",
+  BASEMENT: "Basement",
+  OTHERS: "Others",
+};

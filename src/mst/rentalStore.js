@@ -19,6 +19,8 @@ export const RentalStore = model({
   ),
   selectedSources: optional(array(string), []),
   selectedLocations: optional(array(string), []),
+  selectedBedrooms: optional(array(number), []),
+  selectedHouseTypes: optional(array(string), []),
 })
   .actions((self) => ({
     fetchListings: flow(function* () {
@@ -45,6 +47,12 @@ export const RentalStore = model({
     },
     setSelectedLocations(locations) {
       self.selectedLocations = locations;
+    },
+    setSelectedBedrooms(bedrooms) {
+      self.selectedBedrooms = bedrooms;
+    },
+    setSelectedHouseTypes(types) {
+      self.selectedHouseTypes = types;
     },
   }))
   .views((self) => ({
@@ -99,6 +107,20 @@ export const RentalStore = model({
           }
           return self.selectedLocations.includes(listing.location);
         });
+      }
+
+      // Filter by bedrooms
+      if (self.selectedBedrooms.length > 0) {
+        listings = listings.filter(
+          (listing) => listing.bedrooms === self.selectedBedrooms[0]
+        );
+      }
+
+      // Filter by house types
+      if (self.selectedHouseTypes.length > 0) {
+        listings = listings.filter(
+          (listing) => listing.type === self.selectedHouseTypes[0]
+        );
       }
 
       return listings;

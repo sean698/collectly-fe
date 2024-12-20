@@ -10,6 +10,10 @@ export const RentalListing = model({
   price: number,
   source: string,
   imageUrl: optional(maybeNull(string), null),
+  bedrooms: optional(maybeNull(number), null),
+  bathrooms: optional(maybeNull(number), null),
+  size: optional(maybeNull(number), null),
+  type: optional(maybeNull(string), null),
 })
   .actions((self) => ({}))
   .views((self) => ({}));
