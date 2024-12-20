@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Box } from "@mui/material";
+import { Box, useTheme, useMediaQuery } from "@mui/material";
 import MainContent from "components/MainContent";
 import Filter from "components/Filter";
 import { observer } from "mobx-react-lite";
@@ -8,6 +8,8 @@ import { ScaleLoader } from "react-spinners";
 
 function MainBody() {
   const { isAppInitialized } = useMst();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("lg"));
 
   if (!isAppInitialized) {
     return (
@@ -32,7 +34,7 @@ function MainBody() {
         width: "100%",
       }}
     >
-      <Filter />
+      {/* {!isMobile && <Filter />} */}
       <MainContent />
     </Box>
   );
