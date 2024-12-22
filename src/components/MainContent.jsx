@@ -23,20 +23,34 @@ const labelStyle = {
 
 function MainContent() {
   const { rentalStore } = useMst();
-  const { filteredRentalListings } = rentalStore;
+  const { rentalListings, loadMoreListings, isLoading, currentPage } =
+    rentalStore;
   const [displayCount, setDisplayCount] = React.useState(12);
+  const previousPage = React.useRef(currentPage);
   const loadMoreRef = React.useRef(null);
 
-  const currentItems = filteredRentalListings.slice(0, displayCount);
+  console.log("displayCount", displayCount);
+  console.log("rentalListings", rentalListings.length);
+
+  React.useEffect(() => {
+    if (currentPage === 1) {
+      setDisplayCount(12);
+    }
+    previousPage.current = currentPage;
+  }, [currentPage]);
+
+  const currentItems = rentalListings.slice(0, displayCount);
 
   React.useEffect(() => {
     const observer = new IntersectionObserver(
-      (entries) => {
-        if (
-          entries[0].isIntersecting &&
-          displayCount < filteredRentalListings.length
-        ) {
-          setDisplayCount((prev) => prev + 12);
+      async (entries) => {
+        if (entries[0].isIntersecting && displayCount < rentalListings.length) {
+          console.log(displayCount);
+          setDisplayCount((prev) => prev + 8);
+
+          if (displayCount + 12 >= rentalListings.length) {
+            await loadMoreListings();
+          }
         }
       },
       { threshold: 0.1 }
@@ -47,7 +61,7 @@ function MainContent() {
     }
 
     return () => observer.disconnect();
-  }, [displayCount, filteredRentalListings.length]);
+  }, [displayCount, rentalListings.length, loadMoreListings]);
 
   return (
     <Container maxWidth="lg">
@@ -173,7 +187,7 @@ function MainContent() {
           ))}
         </Grid>
 
-        {displayCount < filteredRentalListings.length && (
+        {(displayCount < rentalListings.length || isLoading) && (
           <Box
             ref={loadMoreRef}
             sx={{
@@ -185,7 +199,9 @@ function MainContent() {
               mt: 4,
             }}
           >
-            <Typography color="text.secondary">Loading more...</Typography>
+            <Typography color="text.secondary">
+              {isLoading ? "Loading..." : "Load more..."}
+            </Typography>
           </Box>
         )}
       </Box>

@@ -17,7 +17,7 @@ export const LOCATIONS = {
   DELTA: "Delta",
   MAPLE_RIDGE: "Maple Ridge",
   SURREY: "Surrey",
-  OTHERS: "Others",
+  // OTHERS: "Others",
 };
 
 export const HOUSE_TYPES = {
@@ -26,5 +26,5 @@ export const HOUSE_TYPES = {
   TOWNHOUSE: "Townhouse",
   CONDO: "Condo",
   BASEMENT: "Basement",
-  OTHERS: "Others",
+  // OTHERS: "Others",
 };

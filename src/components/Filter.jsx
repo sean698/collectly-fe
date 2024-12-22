@@ -12,6 +12,7 @@ import {
   Stack,
   Checkbox,
   ListItemText,
+  Button,
 } from "@mui/material";
 import { SOURCES, LOCATIONS, HOUSE_TYPES } from "mst/constants";
 
@@ -20,51 +21,73 @@ function Filter() {
   const {
     selectedPriceRange,
     setSelectedPriceRange,
-    selectedSources,
     setSelectedSources,
-    selectedBedrooms,
+    setSelectedLocations,
     setSelectedBedrooms,
-    selectedHouseTypes,
     setSelectedHouseTypes,
+    fetchListings,
   } = rentalStore;
+
+  const [filterState, setFilterState] = React.useState({
+    priceRange: { min: selectedPriceRange.min, max: selectedPriceRange.max },
+    sources: rentalStore.selectedSources,
+    locations: rentalStore.selectedLocations,
+    bedrooms: rentalStore.selectedBedrooms,
+    houseTypes: rentalStore.selectedHouseTypes,
+  });
 
   const handlePriceChange = (type) => (event) => {
     const value = event.target.value === "" ? 0 : Number(event.target.value);
-    if (type === "min") {
-      setSelectedPriceRange(value, selectedPriceRange.max);
-    } else {
-      setSelectedPriceRange(selectedPriceRange.min, value);
-    }
+    setFilterState((prev) => ({
+      ...prev,
+      priceRange: {
+        ...prev.priceRange,
+        [type]: value,
+      },
+    }));
+  };
+
+  const handleSearch = () => {
+    setSelectedPriceRange(
+      filterState.priceRange.min,
+      filterState.priceRange.max
+    );
+    setSelectedSources(filterState.sources);
+    setSelectedLocations(filterState.locations);
+    setSelectedBedrooms(filterState.bedrooms);
+    setSelectedHouseTypes(filterState.houseTypes);
+
+    fetchListings();
   };
 
   return (
-    <Box
-      sx={{
-        minWidth: "250px",
-        maxWidth: "250px",
-      }}
-    >
+    <Box sx={{ minWidth: "250px", maxWidth: "250px" }}>
       <Paper sx={{ p: 2 }}>
         <Stack direction="column" spacing={2}>
           <TextField
             label="Min Price"
             type="number"
-            value={selectedPriceRange.min}
+            value={filterState.priceRange.min}
             onChange={handlePriceChange("min")}
             fullWidth
           />
           <TextField
             label="Max Price"
             type="number"
-            value={selectedPriceRange.max}
+            value={filterState.priceRange.max}
             onChange={handlePriceChange("max")}
             fullWidth
           />
           <FormControl fullWidth>
             <InputLabel>Bedrooms</InputLabel>
             <Select
-              value={selectedBedrooms}
-              onChange={(e) => setSelectedBedrooms([e.target.value])}
+              value={filterState.bedrooms}
+              onChange={(e) =>
+                setFilterState((prev) => ({
+                  ...prev,
+                  bedrooms: [e.target.value],
+                }))
+              }
               label="Bedrooms"
               disabled
             >
@@ -81,8 +104,13 @@ function Filter() {
           <FormControl fullWidth>
             <InputLabel>House Type</InputLabel>
             <Select
-              value={selectedHouseTypes}
-              onChange={(e) => setSelectedHouseTypes([e.target.value])}
+              value={filterState.houseTypes}
+              onChange={(e) =>
+                setFilterState((prev) => ({
+                  ...prev,
+                  houseTypes: [e.target.value],
+                }))
+              }
               label="House Type"
               disabled
             >
@@ -100,14 +128,19 @@ function Filter() {
             <InputLabel>Source</InputLabel>
             <Select
               multiple
-              value={selectedSources}
-              onChange={(e) => setSelectedSources(e.target.value)}
+              value={filterState.sources}
+              onChange={(e) =>
+                setFilterState((prev) => ({
+                  ...prev,
+                  sources: e.target.value,
+                }))
+              }
               renderValue={(selected) => selected.join(", ")}
               label="Source"
             >
               {Object.entries(SOURCES).map(([key, value]) => (
                 <MenuItem key={value} value={value}>
-                  <Checkbox checked={selectedSources.includes(value)} />
+                  <Checkbox checked={filterState.sources.includes(value)} />
                   <ListItemText primary={key.toLowerCase()} />
                 </MenuItem>
               ))}
@@ -117,21 +150,34 @@ function Filter() {
             <InputLabel>Location</InputLabel>
             <Select
               multiple
-              value={rentalStore.selectedLocations}
-              onChange={(e) => rentalStore.setSelectedLocations(e.target.value)}
+              value={filterState.locations}
+              onChange={(e) =>
+                setFilterState((prev) => ({
+                  ...prev,
+                  locations: e.target.value,
+                }))
+              }
               renderValue={(selected) => selected.join(", ")}
               label="Location"
             >
               {Object.values(LOCATIONS).map((location) => (
                 <MenuItem key={location} value={location}>
                   <Checkbox
-                    checked={rentalStore.selectedLocations.includes(location)}
+                    checked={filterState.locations.includes(location)}
                   />
                   <ListItemText primary={location} />
                 </MenuItem>
               ))}
             </Select>
           </FormControl>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={handleSearch}
+            fullWidth
+          >
+            Search
+          </Button>
         </Stack>
       </Paper>
     </Box>
