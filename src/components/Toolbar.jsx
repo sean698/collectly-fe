@@ -16,11 +16,11 @@ import GitHubIcon from "@mui/icons-material/GitHub";
 import PersonIcon from "@mui/icons-material/Person";
 import FeedbackIcon from "@mui/icons-material/Feedback";
 import MenuIcon from "@mui/icons-material/Menu";
+import { useMst } from "hooks/useMst";
 import SideDrawer from "./SideDrawer";
-
 function Toolbar() {
+  const { openSideDrawer } = useMst();
   const navigate = useNavigate();
-  const [drawerOpen, setDrawerOpen] = React.useState(false);
 
   const handleExternalLink = (url) => {
     window.open(url, "_blank");
@@ -59,7 +59,7 @@ function Toolbar() {
               edge="start"
               color="inherit"
               aria-label="menu"
-              onClick={() => setDrawerOpen(true)}
+              onClick={openSideDrawer}
               sx={{ mr: 2 }}
             >
               <MenuIcon />
@@ -176,8 +176,7 @@ function Toolbar() {
           </Box>
         </MuiToolbar>
       </AppBar>
-
-      <SideDrawer open={drawerOpen} onClose={() => setDrawerOpen(false)} />
+      <SideDrawer />
     </>
   );
 }

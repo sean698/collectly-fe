@@ -8,6 +8,7 @@ export const rootStore = types
     userEmail: optional(string, ""),
     isAppInitialized: optional(boolean, false),
     rentalStore: optional(RentalStore, {}),
+    isSideDrawerOpen: optional(boolean, false),
   })
   .actions((self) => ({
     afterCreate: flow(function* () {
@@ -23,6 +24,12 @@ export const rootStore = types
         console.error("Failed to initialize app", error);
       }
     }),
+    openSideDrawer: () => {
+      self.isSideDrawerOpen = true;
+    },
+    closeSideDrawer: () => {
+      self.isSideDrawerOpen = false;
+    },
   }))
   .views((self) => ({
     // Define computed values and views here

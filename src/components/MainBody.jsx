@@ -9,7 +9,9 @@ import { ScaleLoader } from "react-spinners";
 function MainBody() {
   const { isAppInitialized } = useMst();
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("lg"));
+  const shouldHideRentalFilter = useMediaQuery(
+    theme.breakpoints.down("hideRentalFilter")
+  );
 
   if (!isAppInitialized) {
     return (
@@ -34,7 +36,17 @@ function MainBody() {
         width: "100%",
       }}
     >
-      {/* {!isMobile && <Filter />} */}
+      {!shouldHideRentalFilter && (
+        <Box
+          sx={{
+            position: "fixed",
+            top: 100,
+            left: "calc(15% - 240px)",
+          }}
+        >
+          <Filter />
+        </Box>
+      )}
       <MainContent />
     </Box>
   );

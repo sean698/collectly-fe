@@ -1,14 +1,17 @@
 import React from "react";
 import { Drawer, IconButton, Box } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
+import { useMst } from "hooks/useMst";
 import Filter from "./Filter";
+import { observer } from "mobx-react-lite";
+function SideDrawer() {
+  const { isSideDrawerOpen, closeSideDrawer } = useMst();
 
-function SideDrawer({ open, onClose }) {
   return (
     <Drawer
       anchor="left"
-      open={open}
-      onClose={onClose}
+      open={isSideDrawerOpen}
+      onClose={closeSideDrawer}
       PaperProps={{
         sx: {
           width: 300,
@@ -20,7 +23,7 @@ function SideDrawer({ open, onClose }) {
     >
       <Box sx={{ p: 2 }}>
         <Box sx={{ display: "flex", justifyContent: "flex-end", mb: 2 }}>
-          <IconButton onClick={onClose} sx={{ color: "white" }}>
+          <IconButton onClick={closeSideDrawer} sx={{ color: "white" }}>
             <CloseIcon />
           </IconButton>
         </Box>
@@ -30,4 +33,4 @@ function SideDrawer({ open, onClose }) {
   );
 }
 
-export default SideDrawer;
+export default observer(SideDrawer);
