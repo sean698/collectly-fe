@@ -18,13 +18,7 @@ function TypewriterComponent() {
       >
         Find everything you need in one place
       </Typography>
-      <Box
-        sx={{
-          color: "#B7935F",
-          fontSize: "2rem",
-          fontWeight: "bold",
-        }}
-      >
+      <Typography variant="h4" fontWeight="bold" color="#977d3c">
         <Typewriter
           options={{
             strings: variations,
@@ -34,7 +28,7 @@ function TypewriterComponent() {
             deleteSpeed: 30,
           }}
         />
-      </Box>
+      </Typography>
     </Box>
   );
 }
