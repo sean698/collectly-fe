@@ -9,6 +9,8 @@ export const getRentalListings = async ({
   sources = [],
   minPrice,
   maxPrice,
+  bedrooms,
+  houseTypes,
 }) => {
   const source = SERVER_MAP.TREASURE_FINDER;
   const route = "/rentalListings";
@@ -19,6 +21,8 @@ export const getRentalListings = async ({
     sources,
     minPrice,
     maxPrice,
+    bedrooms,
+    houseTypes,
   };
   const url = createUrl(source, route, params);
   const response = await axios.get(url);

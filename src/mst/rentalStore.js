@@ -2,7 +2,7 @@ import { types, flow } from "mobx-state-tree";
 import { RentalListing } from "./rentalListing";
 import { getRentalListings } from "api/sources";
 
-const { model, optional, number, string, array } = types;
+const { model, optional, number, string, array, boolean } = types;
 
 export const RentalStore = model({
   rentalListings: optional(array(RentalListing), []),
@@ -15,10 +15,10 @@ export const RentalStore = model({
   ),
   selectedSources: optional(array(string), []),
   selectedLocations: optional(array(string), []),
-  selectedBedrooms: optional(array(number), []),
+  selectedBedrooms: optional(number, 0),
   selectedHouseTypes: optional(array(string), []),
-  currentPage: types.optional(types.number, 1),
-  isLoading: types.optional(types.boolean, false),
+  currentPage: optional(number, 1),
+  isLoading: optional(boolean, false),
 })
   .actions((self) => ({
     fetchListings: flow(function* () {
@@ -30,6 +30,8 @@ export const RentalStore = model({
         const filters = {
           minPrice: self.selectedPriceRange.min || undefined,
           maxPrice: self.selectedPriceRange.max || undefined,
+          bedrooms: self.selectedBedrooms || undefined,
+          houseTypes: self.selectedHouseTypes,
           locations: self.selectedLocations,
           sources: self.selectedSources,
         };

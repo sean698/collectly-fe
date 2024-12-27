@@ -85,41 +85,36 @@ function Filter() {
               onChange={(e) =>
                 setFilterState((prev) => ({
                   ...prev,
-                  bedrooms: [e.target.value],
+                  bedrooms: e.target.value,
                 }))
               }
               label="Bedrooms"
-              disabled
             >
-              <MenuItem value="">
+              <MenuItem value={0}>
                 <em>Any</em>
               </MenuItem>
-              {[0, 1, 2, 3, 4, 5].map((num) => (
-                <MenuItem key={num} value={num}>
-                  {num === 0 ? "Studio" : `${num} BR`}
-                </MenuItem>
-              ))}
+              <MenuItem value={1}>1</MenuItem>
+              <MenuItem value={2}>2+</MenuItem>
             </Select>
           </FormControl>
           <FormControl fullWidth>
             <InputLabel>House Type</InputLabel>
             <Select
+              multiple
               value={filterState.houseTypes}
               onChange={(e) =>
                 setFilterState((prev) => ({
                   ...prev,
-                  houseTypes: [e.target.value],
+                  houseTypes: e.target.value,
                 }))
               }
+              renderValue={(selected) => selected.join(", ")}
               label="House Type"
-              disabled
             >
-              <MenuItem value="">
-                <em>Any</em>
-              </MenuItem>
               {Object.values(HOUSE_TYPES).map((type) => (
                 <MenuItem key={type} value={type}>
-                  {type}
+                  <Checkbox checked={filterState.houseTypes.includes(type)} />
+                  <ListItemText primary={type} />
                 </MenuItem>
               ))}
             </Select>
