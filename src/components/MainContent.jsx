@@ -22,7 +22,7 @@ const labelStyle = {
 
 function MainContent() {
   const { rentalStore } = useMst();
-  const { rentalListings, loadMoreListings, isLoading } = rentalStore;
+  const { rentalListings, loadMoreListings, isLoading, hasMore } = rentalStore;
   const loadMoreRef = React.useRef(null);
 
   React.useEffect(() => {
@@ -166,21 +166,23 @@ function MainContent() {
           ))}
         </Grid>
 
-        <Box
-          ref={loadMoreRef}
-          sx={{
-            width: "100%",
-            height: "50px",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            mt: 4,
-          }}
-        >
-          {isLoading && (
-            <Typography color="text.secondary">Loading...</Typography>
-          )}
-        </Box>
+        {hasMore && (
+          <Box
+            ref={loadMoreRef}
+            sx={{
+              width: "100%",
+              height: "50px",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              mt: 4,
+            }}
+          >
+            {isLoading && (
+              <Typography color="text.secondary">Loading...</Typography>
+            )}
+          </Box>
+        )}
       </Box>
     </Container>
   );

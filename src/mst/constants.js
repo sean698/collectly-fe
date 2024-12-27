@@ -28,3 +28,5 @@ export const HOUSE_TYPES = {
   BASEMENT: "Basement",
   // OTHERS: "Others",
 };
+
+export const PAGE_LIMIT = 20;

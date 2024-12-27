@@ -1,6 +1,7 @@
 import axios from "axios";
 import { createUrl } from "api/url";
 import { SERVER_MAP } from "api/constants";
+import { PAGE_LIMIT } from "mst/constants";
 
 export const getRentalListings = async ({
   page = 1,
@@ -11,7 +12,7 @@ export const getRentalListings = async ({
   bedrooms,
   houseTypes,
 }) => {
-  const limit = 20;
+  const limit = PAGE_LIMIT;
   const source = SERVER_MAP.TREASURE_FINDER;
   const route = "/rentalListings";
   const params = {

@@ -1,6 +1,7 @@
 import { types, flow } from "mobx-state-tree";
 import { RentalListing } from "./rentalListing";
 import { getRentalListings } from "api/sources";
+import { PAGE_LIMIT } from "./constants";
 
 const { model, optional, number, string, array, boolean } = types;
 
@@ -18,6 +19,7 @@ export const RentalStore = model({
   selectedBedrooms: optional(number, 0),
   selectedHouseTypes: optional(array(string), []),
   currentPage: optional(number, 1),
+  hasMore: optional(boolean, true),
   isLoading: optional(boolean, false),
 })
   .actions((self) => ({
@@ -25,6 +27,7 @@ export const RentalStore = model({
       try {
         self.isLoading = true;
         self.currentPage = 1;
+        self.hasMore = true;
         self.rentalListings.clear();
 
         const filters = {
@@ -41,9 +44,13 @@ export const RentalStore = model({
           listings.forEach((listing) => {
             self.rentalListings.push(RentalListing.create(listing));
           });
+          self.hasMore = listings.length === PAGE_LIMIT;
+        } else {
+          self.hasMore = false;
         }
       } catch (error) {
         console.error("Error fetching listings:", error);
+        self.hasMore = false;
       } finally {
         self.isLoading = false;
       }
@@ -69,6 +76,8 @@ export const RentalStore = model({
       self.currentPage = 1;
     },
     loadMoreListings: flow(function* () {
+      if (!self.hasMore || self.isLoading) return;
+
       try {
         self.isLoading = true;
         const nextPage = self.currentPage + 1;
@@ -88,9 +97,13 @@ export const RentalStore = model({
             self.rentalListings.push(RentalListing.create(listing));
           });
           self.currentPage = nextPage;
+          self.hasMore = listings.length === PAGE_LIMIT;
+        } else {
+          self.hasMore = false;
         }
       } catch (error) {
         console.error("Error loading more listings:", error);
+        self.hasMore = false;
       } finally {
         self.isLoading = false;
       }
