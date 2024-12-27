@@ -4,7 +4,6 @@ import { SERVER_MAP } from "api/constants";
 
 export const getRentalListings = async ({
   page = 1,
-  limit = 40,
   locations = [],
   sources = [],
   minPrice,
@@ -12,6 +11,7 @@ export const getRentalListings = async ({
   bedrooms,
   houseTypes,
 }) => {
+  const limit = 20;
   const source = SERVER_MAP.TREASURE_FINDER;
   const route = "/rentalListings";
   const params = {

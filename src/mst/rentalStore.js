@@ -70,14 +70,14 @@ export const RentalStore = model({
     },
     loadMoreListings: flow(function* () {
       try {
-        console.log("loading more listings");
         self.isLoading = true;
         const nextPage = self.currentPage + 1;
-        console.log("loading more listings", nextPage);
         const filters = {
           page: nextPage,
           minPrice: self.selectedPriceRange.min || undefined,
           maxPrice: self.selectedPriceRange.max || undefined,
+          bedrooms: self.selectedBedrooms || undefined,
+          houseTypes: self.selectedHouseTypes,
           locations: self.selectedLocations,
           sources: self.selectedSources,
         };

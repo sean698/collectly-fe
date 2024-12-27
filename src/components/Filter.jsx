@@ -60,6 +60,26 @@ function Filter() {
     fetchListings();
   };
 
+  const handleReset = () => {
+    const initialState = {
+      priceRange: { min: 0, max: 0 },
+      sources: [],
+      locations: [],
+      bedrooms: 0,
+      houseTypes: [],
+    };
+
+    setFilterState(initialState);
+
+    setSelectedPriceRange(0, 0);
+    setSelectedSources([]);
+    setSelectedLocations([]);
+    setSelectedBedrooms(0);
+    setSelectedHouseTypes([]);
+
+    fetchListings();
+  };
+
   return (
     <Box sx={{ minWidth: "250px", maxWidth: "250px" }}>
       <Paper sx={{ p: 2 }}>
@@ -166,14 +186,24 @@ function Filter() {
               ))}
             </Select>
           </FormControl>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={handleSearch}
-            fullWidth
-          >
-            Search
-          </Button>
+          <Stack direction="row" spacing={1}>
+            <Button
+              variant="outlined"
+              color="secondary"
+              onClick={handleReset}
+              fullWidth
+            >
+              Reset
+            </Button>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={handleSearch}
+              fullWidth
+            >
+              Search
+            </Button>
+          </Stack>
         </Stack>
       </Paper>
     </Box>

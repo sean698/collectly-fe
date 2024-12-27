@@ -13,7 +13,6 @@ import {
 } from "@mui/material";
 
 const labelStyle = {
-  // fontWeight: "bold",
   backgroundColor: "backdrop.main",
   color: "customYellow.main",
   px: 1,
@@ -23,34 +22,14 @@ const labelStyle = {
 
 function MainContent() {
   const { rentalStore } = useMst();
-  const { rentalListings, loadMoreListings, isLoading, currentPage } =
-    rentalStore;
-  const [displayCount, setDisplayCount] = React.useState(12);
-  const previousPage = React.useRef(currentPage);
+  const { rentalListings, loadMoreListings, isLoading } = rentalStore;
   const loadMoreRef = React.useRef(null);
-
-  console.log("displayCount", displayCount);
-  console.log("rentalListings", rentalListings.length);
-
-  React.useEffect(() => {
-    if (currentPage === 1) {
-      setDisplayCount(12);
-    }
-    previousPage.current = currentPage;
-  }, [currentPage]);
-
-  const currentItems = rentalListings.slice(0, displayCount);
 
   React.useEffect(() => {
     const observer = new IntersectionObserver(
-      async (entries) => {
-        if (entries[0].isIntersecting && displayCount < rentalListings.length) {
-          console.log(displayCount);
-          setDisplayCount((prev) => prev + 8);
-
-          if (displayCount + 12 >= rentalListings.length) {
-            await loadMoreListings();
-          }
+      (entries) => {
+        if (entries[0].isIntersecting && !isLoading) {
+          loadMoreListings();
         }
       },
       { threshold: 0.1 }
@@ -61,13 +40,13 @@ function MainContent() {
     }
 
     return () => observer.disconnect();
-  }, [displayCount, rentalListings.length, loadMoreListings]);
+  }, [loadMoreListings, isLoading]);
 
   return (
     <Container maxWidth="lg">
       <Box sx={{ mt: 4, mb: 4 }}>
         <Grid container spacing={2}>
-          {currentItems.map((listing) => (
+          {rentalListings.map((listing) => (
             <Grid item xs={12} sm={6} md={3} key={listing.id}>
               <Card
                 sx={{
@@ -187,23 +166,21 @@ function MainContent() {
           ))}
         </Grid>
 
-        {(displayCount < rentalListings.length || isLoading) && (
-          <Box
-            ref={loadMoreRef}
-            sx={{
-              width: "100%",
-              height: "50px",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              mt: 4,
-            }}
-          >
-            <Typography color="text.secondary">
-              {isLoading ? "Loading..." : "Load more..."}
-            </Typography>
-          </Box>
-        )}
+        <Box
+          ref={loadMoreRef}
+          sx={{
+            width: "100%",
+            height: "50px",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            mt: 4,
+          }}
+        >
+          {isLoading && (
+            <Typography color="text.secondary">Loading...</Typography>
+          )}
+        </Box>
       </Box>
     </Container>
   );
