@@ -163,21 +163,21 @@ function MainContent() {
                       </Typography>
 
                       <Box sx={{ display: "flex", gap: 0.5 }}>
-                        {listing.bedrooms && (
+                        {listing.bedrooms ? (
                           <Typography variant="caption" sx={labelStyle}>
                             {listing.bedrooms}BR
                           </Typography>
-                        )}
-                        {listing.bathrooms && (
+                        ) : null}
+                        {listing.bathrooms ? (
                           <Typography variant="caption" sx={labelStyle}>
                             {listing.bathrooms}BA
                           </Typography>
-                        )}
-                        {listing.type && (
+                        ) : null}
+                        {listing.type ? (
                           <Typography variant="caption" sx={labelStyle}>
                             {listing.type}
                           </Typography>
-                        )}
+                        ) : null}
                       </Box>
                     </Box>
                   </CardContent>
