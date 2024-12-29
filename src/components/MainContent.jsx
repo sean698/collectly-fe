@@ -64,15 +64,35 @@ function MainContent() {
                   }}
                   onClick={() => window.open(listing.url, "_blank")}
                 >
-                  <CardMedia
-                    component="img"
-                    height="200"
-                    image={listing.imageUrl || "/imagePlaceholder.jpg"}
-                    alt={listing.title}
-                    sx={{
-                      objectFit: "cover",
-                    }}
-                  />
+                  <Box sx={{ position: "relative" }}>
+                    <CardMedia
+                      component="img"
+                      height="200"
+                      image={listing.imageUrl || "/imagePlaceholder.jpg"}
+                      alt={listing.title}
+                      sx={{
+                        objectFit: "cover",
+                      }}
+                    />
+                    {listing.daysAgo && (
+                      <Typography
+                        variant="caption"
+                        sx={{
+                          position: "absolute",
+                          top: 8,
+                          left: 8,
+                          backgroundColor: "rgba(0, 0, 0, 0.75)",
+                          color: "white",
+                          px: 1,
+                          py: 0.5,
+                          borderRadius: 1,
+                          fontSize: "0.75rem",
+                        }}
+                      >
+                        {listing.daysAgo}
+                      </Typography>
+                    )}
+                  </Box>
                   <CardContent
                     sx={{
                       flex: 1,
@@ -114,8 +134,9 @@ function MainContent() {
                       <Typography
                         variant="caption"
                         sx={{
-                          backgroundColor: "backdrop.main",
-                          color: "grey.100",
+                          backgroundColor: "customYellow.main",
+                          color: "backdrop.main",
+                          fontWeight: "bold",
                           px: 1,
                           py: 0.3,
                           borderRadius: 1,
