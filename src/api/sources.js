@@ -29,3 +29,11 @@ export const getRentalListings = async ({
   const response = await axios.get(url);
   return response.data;
 };
+
+export const submitFeedback = async (feedback) => {
+  const source = SERVER_MAP.TREASURE_FINDER;
+  const route = "/feedback";
+  const url = createUrl(source, route);
+  const response = await axios.post(url, { feedback });
+  return response.data;
+};

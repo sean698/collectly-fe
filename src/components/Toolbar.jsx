@@ -18,17 +18,29 @@ import FeedbackIcon from "@mui/icons-material/Feedback";
 import MenuIcon from "@mui/icons-material/Menu";
 import { useMst } from "hooks/useMst";
 import SideDrawer from "./SideDrawer";
+import FeedbackDialog from "./FeedbackDialog";
+import { submitFeedback } from "api/sources";
+
 function Toolbar() {
-  const { openSideDrawer } = useMst();
+  const {
+    openSideDrawer,
+    openFeedbackDialog,
+    closeFeedbackDialog,
+    isFeedbackDialogOpen,
+  } = useMst();
   const navigate = useNavigate();
 
   const handleExternalLink = (url) => {
     window.open(url, "_blank");
   };
 
-  const handleFeedback = async () => {
-    const email = "shiyuanm000@gmail.com";
-    await navigator.clipboard.writeText(email);
+  const handleFeedbackSubmit = async (feedbackText) => {
+    try {
+      closeFeedbackDialog();
+      submitFeedback(feedbackText);
+    } catch (error) {
+      console.error("Error submitting feedback:", error);
+    }
   };
 
   return (
@@ -169,7 +181,7 @@ function Toolbar() {
             </Tooltip>
 
             <Tooltip title="Feedback">
-              <IconButton onClick={handleFeedback} sx={{ color: "white" }}>
+              <IconButton onClick={openFeedbackDialog} sx={{ color: "white" }}>
                 <FeedbackIcon />
               </IconButton>
             </Tooltip>
@@ -177,6 +189,11 @@ function Toolbar() {
         </MuiToolbar>
       </AppBar>
       <SideDrawer />
+      <FeedbackDialog
+        open={isFeedbackDialogOpen}
+        onClose={closeFeedbackDialog}
+        onSubmit={handleFeedbackSubmit}
+      />
     </>
   );
 }
