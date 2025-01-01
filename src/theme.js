@@ -1,17 +1,19 @@
-import { createTheme } from "@mui/material/styles";
+import { yellow, grey } from "@mui/material/colors";
 
-const theme = createTheme({
+const theme = {
   palette: {
-    // primary: {
-    //   // main: "#3F3244",
-    //   // light: "#42a5f5",
-    //   // dark: "#1565c0",
-    // },
     backdrop: {
       main: "#333333",
     },
     customYellow: {
-      main: "#FCE303",
+      main: yellow[500],
+      light: yellow[300],
+      dark: yellow[800],
+    },
+    customGrey: {
+      main: grey[500],
+      light: grey[200],
+      dark: grey[800],
     },
   },
   breakpoints: {
@@ -24,6 +26,6 @@ const theme = createTheme({
       hideRentalFilter: 1700,
     },
   },
-});
+};
 
 export default theme;

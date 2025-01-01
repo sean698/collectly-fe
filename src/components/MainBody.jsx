@@ -24,7 +24,7 @@ function MainBody() {
           minHeight: "calc(100vh - 160px)",
         }}
       >
-        <ScaleLoader color="#FCE303" />
+        <ScaleLoader color={theme.palette.customYellow.dark} />
       </Box>
     );
   }

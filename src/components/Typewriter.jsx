@@ -9,7 +9,7 @@ function TypewriterComponent() {
       <Typography
         sx={{
           mb: 4,
-          color: "#2C3E50",
+          color: "customGrey.dark",
           fontSize: "2.5rem",
           fontWeight: 600,
           letterSpacing: "0.5px",
@@ -18,7 +18,7 @@ function TypewriterComponent() {
       >
         Find everything you need in one place
       </Typography>
-      <Typography variant="h4" fontWeight="bold" color="#977d3c">
+      <Typography variant="h4" fontWeight="bold" color="customYellow.dark">
         <Typewriter
           options={{
             strings: variations,

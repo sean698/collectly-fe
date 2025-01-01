@@ -82,7 +82,12 @@ function Filter() {
 
   return (
     <Box sx={{ minWidth: "250px", maxWidth: "250px" }}>
-      <Paper sx={{ p: 2 }}>
+      <Paper
+        sx={{
+          p: 2,
+          backgroundColor: "rgba(255, 255, 255, 0.5)",
+        }}
+      >
         <Stack direction="column" spacing={2}>
           <TextField
             label="Min Price"
@@ -189,7 +194,11 @@ function Filter() {
           <Stack direction="row" spacing={1}>
             <Button
               variant="outlined"
-              color="secondary"
+              sx={{
+                color: "customYellow.dark",
+                borderColor: "customYellow.dark",
+                borderWidth: 1.5,
+              }}
               onClick={handleReset}
               fullWidth
             >
@@ -197,7 +206,10 @@ function Filter() {
             </Button>
             <Button
               variant="contained"
-              color="primary"
+              sx={{
+                backgroundColor: "customYellow.main",
+                color: "backdrop.main",
+              }}
               onClick={handleSearch}
               fullWidth
             >

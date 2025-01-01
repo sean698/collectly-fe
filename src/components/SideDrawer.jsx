@@ -4,8 +4,12 @@ import CloseIcon from "@mui/icons-material/Close";
 import { useMst } from "hooks/useMst";
 import Filter from "./Filter";
 import { observer } from "mobx-react-lite";
+import { useLocation } from "react-router-dom";
+
 function SideDrawer() {
   const { isSideDrawerOpen, closeSideDrawer } = useMst();
+  const location = useLocation();
+  const isRentalsPage = location.pathname === "/housing";
 
   return (
     <Drawer
@@ -15,19 +19,20 @@ function SideDrawer() {
       PaperProps={{
         sx: {
           width: 300,
-          backgroundColor: "white",
-          backdropFilter: "blur(8px)",
-          borderRight: "1px solid rgba(255, 255, 255, 0.1)",
+          backgroundColor: "customGrey.light",
         },
       }}
     >
       <Box sx={{ p: 2 }}>
         <Box sx={{ display: "flex", justifyContent: "flex-end", mb: 2 }}>
-          <IconButton onClick={closeSideDrawer} sx={{ color: "white" }}>
+          <IconButton
+            onClick={closeSideDrawer}
+            sx={{ color: "customYellow.dark" }}
+          >
             <CloseIcon />
           </IconButton>
         </Box>
-        <Filter inDrawer />
+        {isRentalsPage && <Filter inDrawer />}
       </Box>
     </Drawer>
   );

@@ -6,14 +6,14 @@ import { observer } from "mobx-react-lite";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "pages/Home";
 import Rentals from "pages/Rentals";
-
 import BackgroundGradient from "components/BackgroundGradient";
 import { ThemeProvider } from "@mui/material/styles";
+import { createTheme } from "@mui/material/styles";
 import theme from "./theme";
 
 function App() {
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={createTheme(theme)}>
       <Provider value={rootStore.create()}>
         <BackgroundGradient />
         <BrowserRouter>

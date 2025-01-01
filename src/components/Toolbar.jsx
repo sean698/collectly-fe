@@ -47,7 +47,7 @@ function Toolbar() {
     <>
       <AppBar
         sx={{
-          backgroundColor: "rgba(51, 51, 51, 0.8)",
+          backgroundColor: "rgba(51, 51, 51, 0.7)",
           backdropFilter: "blur(8px)",
         }}
       >
