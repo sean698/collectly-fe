@@ -20,8 +20,11 @@ import { useMst } from "hooks/useMst";
 import SideDrawer from "./SideDrawer";
 import FeedbackDialog from "./FeedbackDialog";
 import { submitFeedback } from "api/sources";
+import { useTheme } from "@mui/material/styles";
+import { useMediaQuery } from "@mui/material";
 
 function Toolbar() {
+  const theme = useTheme();
   const {
     openSideDrawer,
     openFeedbackDialog,
@@ -29,7 +32,7 @@ function Toolbar() {
     isFeedbackDialogOpen,
   } = useMst();
   const navigate = useNavigate();
-
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const handleExternalLink = (url) => {
     window.open(url, "_blank");
   };
@@ -79,7 +82,7 @@ function Toolbar() {
 
             <Box
               sx={{
-                display: { xs: "none", sm: "flex" },
+                display: "flex",
                 alignItems: "center",
                 cursor: "pointer",
                 gap: 2,
@@ -89,13 +92,14 @@ function Toolbar() {
                 src="/logo.png"
                 alt="Logo"
                 style={{
-                  height: "40px",
+                  height: isMobile ? "30px" : "40px",
                 }}
                 onClick={() => navigate("/")}
               />
               <Typography
                 variant="h5"
                 sx={{
+                  display: isMobile ? "none" : "",
                   fontWeight: 700,
                   color: "white",
                 }}
@@ -116,7 +120,7 @@ function Toolbar() {
                   cursor: "pointer",
                   padding: "4px 8px",
                   borderRadius: 1,
-                  height: "64px",
+                  // height: "64px",
                   transition: "background-color 0.2s",
                   "&:hover": {
                     backgroundColor: "rgba(255, 255, 255, 0.1)",
