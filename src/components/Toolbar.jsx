@@ -79,7 +79,7 @@ function Toolbar() {
 
             <Box
               sx={{
-                display: "flex",
+                display: { xs: "none", sm: "flex" },
                 alignItems: "center",
                 cursor: "pointer",
                 gap: 2,
@@ -116,7 +116,7 @@ function Toolbar() {
                   cursor: "pointer",
                   padding: "4px 8px",
                   borderRadius: 1,
-                  // height: "64px",
+                  height: "64px",
                   transition: "background-color 0.2s",
                   "&:hover": {
                     backgroundColor: "rgba(255, 255, 255, 0.1)",
@@ -129,13 +129,14 @@ function Toolbar() {
 
               <Box
                 sx={{
-                  display: "flex",
+                  display: { xs: "none", sm: "flex" },
                   alignItems: "center",
                   gap: 0.5,
                   color: "rgba(255, 255, 255, 0.5)",
                   padding: "4px 8px",
                   borderRadius: 1,
                   height: "64px",
+                  minWidth: "122px",
                 }}
               >
                 <ShoppingBagIcon fontSize="small" />
@@ -144,7 +145,7 @@ function Toolbar() {
 
               <Box
                 sx={{
-                  display: "flex",
+                  display: { xs: "none", sm: "flex" },
                   alignItems: "center",
                   gap: 0.5,
                   color: "rgba(255, 255, 255, 0.5)",
@@ -159,7 +160,13 @@ function Toolbar() {
             </Box>
           </Box>
 
-          <Box sx={{ display: "flex", gap: 1, mr: 8 }}>
+          <Box
+            sx={{
+              display: { xs: "none", sm: "flex" },
+              gap: 1,
+              mr: { xs: 0, sm: 8 },
+            }}
+          >
             <Tooltip title="GitHub">
               <IconButton
                 onClick={() => handleExternalLink("https://github.com/sean698")}

@@ -39,5 +39,7 @@ export const rootStore = types
     },
   }))
   .views((self) => ({
-    // Define computed values and views here
+    get isSafari() {
+      return /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+    },
   }));

@@ -2,8 +2,12 @@ import MagicUiAnimatedBeam from "components/MagicUiAnimatedBeam.tsx";
 import TypewriterEffect from "components/Typewriter";
 import { Box } from "@mui/material";
 import Toolbar from "components/Toolbar";
+import { observer } from "mobx-react-lite";
+import { useMst } from "hooks/useMst";
 
 function Home() {
+  const { isSafari } = useMst();
+
   return (
     <Box
       sx={{
@@ -26,10 +30,10 @@ function Home() {
         >
           <TypewriterEffect />
         </Box>
-        <MagicUiAnimatedBeam />
+        {!isSafari && <MagicUiAnimatedBeam />}
       </Box>
     </Box>
   );
 }
 
-export default Home;
+export default observer(Home);
