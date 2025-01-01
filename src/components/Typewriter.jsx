@@ -1,7 +1,7 @@
 import Typewriter from "typewriter-effect";
 import { Box, Typography } from "@mui/material";
 
-const variations = ["housing", "second-hand", "local services"];
+const variations = ["housing rentals", "second-hand", "local services"];
 
 function TypewriterComponent() {
   return (
@@ -15,9 +15,10 @@ function TypewriterComponent() {
           letterSpacing: "0.5px",
           lineHeight: 1.3,
           textShadow: "2px 2px 4px rgba(0, 0, 0, 0.3)",
+          px: 3,
         }}
       >
-        Find everything you need in one place
+        Find everything you need in Metro Vancouver
       </Typography>
       <Typography
         variant="h4"
