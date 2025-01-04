@@ -1,6 +1,7 @@
 import { types } from "mobx-state-tree";
 
-const { string, optional, number, model, identifier, maybeNull } = types;
+const { string, optional, number, model, identifier, maybeNull, boolean } =
+  types;
 
 const FirestoreTimestamp = model({
   _seconds: number,
@@ -20,6 +21,9 @@ export const RentalListing = model({
   size: optional(maybeNull(number), null),
   type: optional(maybeNull(string), null),
   createdAt: optional(maybeNull(FirestoreTimestamp), null),
+  furnished: optional(maybeNull(boolean), null),
+  parking: optional(maybeNull(boolean), null),
+  aircon: optional(maybeNull(boolean), null),
 })
   .actions((self) => ({}))
   .views((self) => ({

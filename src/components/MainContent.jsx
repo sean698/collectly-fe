@@ -10,7 +10,12 @@ import {
   Typography,
   Grid,
   CardActionArea,
+  Tooltip,
 } from "@mui/material";
+import { TbParkingCircle as ParkingIcon } from "react-icons/tb";
+import { TbAirConditioning as AirconIcon } from "react-icons/tb";
+import { RiSofaLine as SofaIcon } from "react-icons/ri";
+import theme from "theme";
 
 const labelStyle = {
   backgroundColor: "backdrop.main",
@@ -18,6 +23,11 @@ const labelStyle = {
   px: 1,
   py: 0.3,
   borderRadius: 1,
+};
+
+const facilityIconStyle = {
+  color: theme.palette.customGrey.dark,
+  fontSize: "25px",
 };
 
 function MainContent() {
@@ -119,7 +129,40 @@ function MainContent() {
                     >
                       {listing.title}
                     </Typography>
-
+                    {/* <Box
+                      sx={{
+                        display: "flex",
+                        gap: 0.5,
+                        alignItems: "center",
+                        mb: 0.5,
+                      }}
+                    >
+                      {listing.furnished && (
+                        <Tooltip title="Furnished" arrow placement="top">
+                          <div>
+                            <SofaIcon style={facilityIconStyle} />
+                          </div>
+                        </Tooltip>
+                      )}
+                      {listing.parking && (
+                        <Tooltip
+                          title="Parking Available"
+                          arrow
+                          placement="top"
+                        >
+                          <div>
+                            <ParkingIcon style={facilityIconStyle} />
+                          </div>
+                        </Tooltip>
+                      )}
+                      {listing.aircon && (
+                        <Tooltip title="Air Conditioning" arrow placement="top">
+                          <div>
+                            <AirconIcon style={facilityIconStyle} />
+                          </div>
+                        </Tooltip>
+                      )}
+                    </Box> */}
                     <Box
                       sx={{
                         display: "flex",
@@ -131,6 +174,42 @@ function MainContent() {
                       <Typography variant="body2" color="text.secondary">
                         {listing.location}
                       </Typography>
+                      <Box
+                        sx={{
+                          display: "flex",
+                          gap: 0.5,
+                        }}
+                      >
+                        {listing.furnished && (
+                          <Tooltip title="Furnished" arrow placement="top">
+                            <div>
+                              <SofaIcon style={facilityIconStyle} />
+                            </div>
+                          </Tooltip>
+                        )}
+                        {listing.parking && (
+                          <Tooltip
+                            title="Parking Available"
+                            arrow
+                            placement="top"
+                          >
+                            <div>
+                              <ParkingIcon style={facilityIconStyle} />
+                            </div>
+                          </Tooltip>
+                        )}
+                        {listing.aircon && (
+                          <Tooltip
+                            title="Air Conditioning"
+                            arrow
+                            placement="top"
+                          >
+                            <div>
+                              <AirconIcon style={facilityIconStyle} />
+                            </div>
+                          </Tooltip>
+                        )}
+                      </Box>
                       <Typography
                         variant="caption"
                         sx={{
