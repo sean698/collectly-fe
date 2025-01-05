@@ -28,4 +28,4 @@ export const HOUSE_TYPES = {
   // OTHERS: "Others",
 };
 
-export const PAGE_LIMIT = 20;
+export const PAGE_LIMIT = 40;
