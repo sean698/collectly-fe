@@ -13,70 +13,30 @@ import {
   Checkbox,
   ListItemText,
   Button,
+  FormGroup,
+  FormControlLabel,
 } from "@mui/material";
 import { SOURCES, LOCATIONS, HOUSE_TYPES } from "mst/constants";
 
 function Filter() {
   const { rentalStore } = useMst();
-  const {
-    selectedPriceRange,
-    setSelectedPriceRange,
-    setSelectedSources,
-    setSelectedLocations,
-    setSelectedBedrooms,
-    setSelectedHouseTypes,
-    fetchListings,
-  } = rentalStore;
-
-  const [filterState, setFilterState] = React.useState({
-    priceRange: { min: selectedPriceRange.min, max: selectedPriceRange.max },
-    sources: rentalStore.selectedSources,
-    locations: rentalStore.selectedLocations,
-    bedrooms: rentalStore.selectedBedrooms,
-    houseTypes: rentalStore.selectedHouseTypes,
-  });
+  const { filter, fetchListings } = rentalStore;
 
   const handlePriceChange = (type) => (event) => {
     const value = event.target.value === "" ? 0 : Number(event.target.value);
-    setFilterState((prev) => ({
-      ...prev,
-      priceRange: {
-        ...prev.priceRange,
-        [type]: value,
-      },
-    }));
+    filter.setPriceRange(type, value);
+  };
+
+  const handleFacilityChange = (facility) => (event) => {
+    filter.setFacilities(facility, event.target.checked);
   };
 
   const handleSearch = () => {
-    setSelectedPriceRange(
-      filterState.priceRange.min,
-      filterState.priceRange.max
-    );
-    setSelectedSources(filterState.sources);
-    setSelectedLocations(filterState.locations);
-    setSelectedBedrooms(filterState.bedrooms);
-    setSelectedHouseTypes(filterState.houseTypes);
-
     fetchListings();
   };
 
   const handleReset = () => {
-    const initialState = {
-      priceRange: { min: 0, max: 0 },
-      sources: [],
-      locations: [],
-      bedrooms: 0,
-      houseTypes: [],
-    };
-
-    setFilterState(initialState);
-
-    setSelectedPriceRange(0, 0);
-    setSelectedSources([]);
-    setSelectedLocations([]);
-    setSelectedBedrooms(0);
-    setSelectedHouseTypes([]);
-
+    filter.reset();
     fetchListings();
   };
 
@@ -92,27 +52,22 @@ function Filter() {
           <TextField
             label="Min Price"
             type="number"
-            value={filterState.priceRange.min}
+            value={filter.priceRange.min}
             onChange={handlePriceChange("min")}
             fullWidth
           />
           <TextField
             label="Max Price"
             type="number"
-            value={filterState.priceRange.max}
+            value={filter.priceRange.max}
             onChange={handlePriceChange("max")}
             fullWidth
           />
           <FormControl fullWidth>
             <InputLabel>Bedrooms</InputLabel>
             <Select
-              value={filterState.bedrooms}
-              onChange={(e) =>
-                setFilterState((prev) => ({
-                  ...prev,
-                  bedrooms: e.target.value,
-                }))
-              }
+              value={filter.bedrooms}
+              onChange={(e) => filter.setBedrooms(e.target.value)}
               label="Bedrooms"
             >
               <MenuItem value={0}>
@@ -127,19 +82,14 @@ function Filter() {
             <InputLabel>House Type</InputLabel>
             <Select
               multiple
-              value={filterState.houseTypes}
-              onChange={(e) =>
-                setFilterState((prev) => ({
-                  ...prev,
-                  houseTypes: e.target.value,
-                }))
-              }
+              value={filter.houseTypes}
+              onChange={(e) => filter.setHouseTypes(e.target.value)}
               renderValue={(selected) => selected.join(", ")}
               label="House Type"
             >
               {Object.values(HOUSE_TYPES).map((type) => (
                 <MenuItem key={type} value={type}>
-                  <Checkbox checked={filterState.houseTypes.includes(type)} />
+                  <Checkbox checked={filter.houseTypes.includes(type)} />
                   <ListItemText primary={type} />
                 </MenuItem>
               ))}
@@ -149,19 +99,14 @@ function Filter() {
             <InputLabel>Source</InputLabel>
             <Select
               multiple
-              value={filterState.sources}
-              onChange={(e) =>
-                setFilterState((prev) => ({
-                  ...prev,
-                  sources: e.target.value,
-                }))
-              }
+              value={filter.sources}
+              onChange={(e) => filter.setSources(e.target.value)}
               renderValue={(selected) => selected.join(", ")}
               label="Source"
             >
               {Object.entries(SOURCES).map(([key, value]) => (
                 <MenuItem key={value} value={value}>
-                  <Checkbox checked={filterState.sources.includes(value)} />
+                  <Checkbox checked={filter.sources.includes(value)} />
                   <ListItemText primary={key.toLowerCase()} />
                 </MenuItem>
               ))}
@@ -171,25 +116,49 @@ function Filter() {
             <InputLabel>Location</InputLabel>
             <Select
               multiple
-              value={filterState.locations}
-              onChange={(e) =>
-                setFilterState((prev) => ({
-                  ...prev,
-                  locations: e.target.value,
-                }))
-              }
+              value={filter.locations}
+              onChange={(e) => filter.setLocations(e.target.value)}
               renderValue={(selected) => selected.join(", ")}
               label="Location"
             >
               {Object.values(LOCATIONS).map((location) => (
                 <MenuItem key={location} value={location}>
-                  <Checkbox
-                    checked={filterState.locations.includes(location)}
-                  />
+                  <Checkbox checked={filter.locations.includes(location)} />
                   <ListItemText primary={location} />
                 </MenuItem>
               ))}
             </Select>
+          </FormControl>
+          <FormControl component="fieldset">
+            <FormGroup>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={filter.facilities.parking}
+                    onChange={handleFacilityChange("parking")}
+                  />
+                }
+                label="Parking"
+              />
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={filter.facilities.aircon}
+                    onChange={handleFacilityChange("aircon")}
+                  />
+                }
+                label="Air Conditioning"
+              />
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={filter.facilities.furnished}
+                    onChange={handleFacilityChange("furnished")}
+                  />
+                }
+                label="Furnished"
+              />
+            </FormGroup>
           </FormControl>
           <Stack direction="row" spacing={1}>
             <Button

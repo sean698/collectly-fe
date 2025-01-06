@@ -2,22 +2,13 @@ import { types, flow } from "mobx-state-tree";
 import { RentalListing } from "./rentalListing";
 import { getRentalListings } from "api/sources";
 import { PAGE_LIMIT, SOURCES } from "./constants";
+import { FilterModel, defaultFilterState } from "./filterModel";
 
-const { model, optional, number, string, array, boolean } = types;
+const { model, optional, number, array, boolean } = types;
 
 export const RentalStore = model({
   rentalListings: optional(array(RentalListing), []),
-  selectedPriceRange: optional(
-    model({
-      min: optional(number, 0),
-      max: optional(number, 0),
-    }),
-    { min: 0, max: 0 }
-  ),
-  selectedSources: optional(array(string), Object.values(SOURCES)),
-  selectedLocations: optional(array(string), []),
-  selectedBedrooms: optional(number, 0),
-  selectedHouseTypes: optional(array(string), []),
+  filter: optional(FilterModel, defaultFilterState),
   currentPage: optional(number, 1),
   hasMore: optional(boolean, true),
   isLoading: optional(boolean, false),
@@ -29,17 +20,21 @@ export const RentalStore = model({
         self.currentPage = 1;
         self.hasMore = true;
         self.rentalListings.clear();
+        const { parking, aircon, furnished } = self.filter.facilities;
 
         const filters = {
-          minPrice: self.selectedPriceRange.min || undefined,
-          maxPrice: self.selectedPriceRange.max || undefined,
-          bedrooms: self.selectedBedrooms || undefined,
-          houseTypes: self.selectedHouseTypes,
-          locations: self.selectedLocations,
+          minPrice: self.filter.priceRange.min || undefined,
+          maxPrice: self.filter.priceRange.max || undefined,
+          bedrooms: self.filter.bedrooms || undefined,
+          houseTypes: self.filter.houseTypes,
+          locations: self.filter.locations,
           sources:
-            self.selectedSources.length === Object.values(SOURCES).length
+            self.filter.sources.length === Object.values(SOURCES).length
               ? undefined
-              : self.selectedSources,
+              : self.filter.sources,
+          parking: parking || undefined,
+          aircon: aircon || undefined,
+          furnished: furnished || undefined,
         };
         const listings = yield getRentalListings(filters);
 
@@ -58,25 +53,26 @@ export const RentalStore = model({
         self.isLoading = false;
       }
     }),
-    setSelectedPriceRange(min, max) {
-      self.selectedPriceRange = { min, max };
+    resetCurrentPage() {
       self.currentPage = 1;
+    },
+    setSelectedPriceRange(min, max) {
+      self.filter.priceRange = { min, max };
     },
     setSelectedSources(sources) {
-      self.selectedSources = sources;
-      self.currentPage = 1;
+      self.filter.sources = sources;
     },
     setSelectedLocations(locations) {
-      self.selectedLocations = locations;
-      self.currentPage = 1;
+      self.filter.locations = locations;
     },
     setSelectedBedrooms(bedrooms) {
-      self.selectedBedrooms = bedrooms;
-      self.currentPage = 1;
+      self.filter.bedrooms = bedrooms;
     },
     setSelectedHouseTypes(types) {
-      self.selectedHouseTypes = types;
-      self.currentPage = 1;
+      self.filter.houseTypes = types;
+    },
+    setSelectedFacilities(facilities) {
+      self.filter.facilities = facilities;
     },
     loadMoreListings: flow(function* () {
       if (!self.hasMore || self.isLoading) return;
@@ -84,17 +80,21 @@ export const RentalStore = model({
       try {
         self.isLoading = true;
         const nextPage = self.currentPage + 1;
+        const { parking, aircon, furnished } = self.filter.facilities;
         const filters = {
           page: nextPage,
-          minPrice: self.selectedPriceRange.min || undefined,
-          maxPrice: self.selectedPriceRange.max || undefined,
-          bedrooms: self.selectedBedrooms || undefined,
-          houseTypes: self.selectedHouseTypes,
-          locations: self.selectedLocations,
+          minPrice: self.filter.priceRange.min || undefined,
+          maxPrice: self.filter.priceRange.max || undefined,
+          bedrooms: self.filter.bedrooms || undefined,
+          houseTypes: self.filter.houseTypes,
+          locations: self.filter.locations,
           sources:
-            self.selectedSources.length === Object.values(SOURCES).length
+            self.filter.sources.length === Object.values(SOURCES).length
               ? undefined
-              : self.selectedSources,
+              : self.filter.sources,
+          parking: parking || undefined,
+          aircon: aircon || undefined,
+          furnished: furnished || undefined,
         };
         const listings = yield getRentalListings(filters);
 

@@ -11,8 +11,10 @@ export const getRentalListings = async ({
   maxPrice,
   bedrooms,
   houseTypes,
+  parking,
+  aircon,
+  furnished,
 }) => {
-  console.log("sources", sources);
   const limit = PAGE_LIMIT;
   const source = SERVER_MAP.TREASURE_FINDER;
   const route = "/rentalListings";
@@ -25,6 +27,9 @@ export const getRentalListings = async ({
     maxPrice,
     bedrooms,
     houseTypes,
+    parking,
+    aircon,
+    furnished,
   };
   const url = createUrl(source, route, params);
   const response = await axios.get(url);
