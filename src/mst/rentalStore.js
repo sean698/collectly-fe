@@ -1,7 +1,7 @@
 import { types, flow } from "mobx-state-tree";
 import { RentalListing } from "./rentalListing";
 import { getRentalListings } from "api/sources";
-import { PAGE_LIMIT } from "./constants";
+import { PAGE_LIMIT, SOURCES } from "./constants";
 
 const { model, optional, number, string, array, boolean } = types;
 
@@ -14,7 +14,7 @@ export const RentalStore = model({
     }),
     { min: 0, max: 0 }
   ),
-  selectedSources: optional(array(string), []),
+  selectedSources: optional(array(string), Object.values(SOURCES)),
   selectedLocations: optional(array(string), []),
   selectedBedrooms: optional(number, 0),
   selectedHouseTypes: optional(array(string), []),
@@ -36,7 +36,10 @@ export const RentalStore = model({
           bedrooms: self.selectedBedrooms || undefined,
           houseTypes: self.selectedHouseTypes,
           locations: self.selectedLocations,
-          sources: self.selectedSources,
+          sources:
+            self.selectedSources.length === Object.values(SOURCES).length
+              ? undefined
+              : self.selectedSources,
         };
         const listings = yield getRentalListings(filters);
 
@@ -88,7 +91,10 @@ export const RentalStore = model({
           bedrooms: self.selectedBedrooms || undefined,
           houseTypes: self.selectedHouseTypes,
           locations: self.selectedLocations,
-          sources: self.selectedSources,
+          sources:
+            self.selectedSources.length === Object.values(SOURCES).length
+              ? undefined
+              : self.selectedSources,
         };
         const listings = yield getRentalListings(filters);
 

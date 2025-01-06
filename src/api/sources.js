@@ -6,12 +6,13 @@ import { PAGE_LIMIT } from "mst/constants";
 export const getRentalListings = async ({
   page = 1,
   locations = [],
-  sources = [],
+  sources,
   minPrice,
   maxPrice,
   bedrooms,
   houseTypes,
 }) => {
+  console.log("sources", sources);
   const limit = PAGE_LIMIT;
   const source = SERVER_MAP.TREASURE_FINDER;
   const route = "/rentalListings";
