@@ -24,6 +24,7 @@ export const RentalListing = model({
   furnished: optional(maybeNull(boolean), null),
   parking: optional(maybeNull(boolean), null),
   aircon: optional(maybeNull(boolean), null),
+  promoted: optional(maybeNull(boolean), false),
 })
   .actions((self) => ({}))
   .views((self) => ({

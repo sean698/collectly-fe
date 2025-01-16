@@ -32,7 +32,7 @@ const facilityIconStyle = {
 
 function MainContent() {
   const { rentalStore } = useMst();
-  const { rentalListings, loadMoreListings, isLoading, hasMore } = rentalStore;
+  const { allListings, loadMoreListings, isLoading, hasMore } = rentalStore;
   const loadMoreRef = React.useRef(null);
 
   React.useEffect(() => {
@@ -56,7 +56,7 @@ function MainContent() {
     <Container maxWidth="lg">
       <Box sx={{ mt: 4, mb: 4 }}>
         <Grid container spacing={2}>
-          {rentalListings.map((listing) => (
+          {allListings.map((listing) => (
             <Grid item xs={12} sm={6} md={3} key={listing.id}>
               <Card
                 sx={{
@@ -102,6 +102,26 @@ function MainContent() {
                         {listing.daysAgo}
                       </Typography>
                     )}
+                    {listing.promoted && (
+                      <Typography
+                        variant="caption"
+                        sx={{
+                          position: "absolute",
+                          top: 8,
+                          right: 8,
+                          backgroundColor: "#ff4444",
+                          color: "white",
+                          px: 1,
+                          py: 0.5,
+                          borderRadius: 1,
+                          fontSize: "0.75rem",
+                          fontWeight: "bold",
+                          boxShadow: "0px 0px 4px rgba(0,0,0,0.3)",
+                        }}
+                      >
+                        TOP
+                      </Typography>
+                    )}
                   </Box>
                   <CardContent
                     sx={{
@@ -129,40 +149,6 @@ function MainContent() {
                     >
                       {listing.title}
                     </Typography>
-                    {/* <Box
-                      sx={{
-                        display: "flex",
-                        gap: 0.5,
-                        alignItems: "center",
-                        mb: 0.5,
-                      }}
-                    >
-                      {listing.furnished && (
-                        <Tooltip title="Furnished" arrow placement="top">
-                          <div>
-                            <SofaIcon style={facilityIconStyle} />
-                          </div>
-                        </Tooltip>
-                      )}
-                      {listing.parking && (
-                        <Tooltip
-                          title="Parking Available"
-                          arrow
-                          placement="top"
-                        >
-                          <div>
-                            <ParkingIcon style={facilityIconStyle} />
-                          </div>
-                        </Tooltip>
-                      )}
-                      {listing.aircon && (
-                        <Tooltip title="Air Conditioning" arrow placement="top">
-                          <div>
-                            <AirconIcon style={facilityIconStyle} />
-                          </div>
-                        </Tooltip>
-                      )}
-                    </Box> */}
                     <Box
                       sx={{
                         display: "flex",

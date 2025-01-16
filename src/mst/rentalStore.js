@@ -1,7 +1,7 @@
 import { types, flow } from "mobx-state-tree";
 import { RentalListing } from "./rentalListing";
 import { getRentalListings } from "api/sources";
-import { PAGE_LIMIT, SOURCES } from "./constants";
+import { PAGE_LIMIT, SOURCES, FAKE_LISTINGS } from "./constants";
 import { FilterModel, defaultFilterState } from "./filterModel";
 
 const { model, optional, number, array, boolean } = types;
@@ -116,7 +116,7 @@ export const RentalStore = model({
     }),
   }))
   .views((self) => ({
-    get sortedRentalListings() {
-      return self.rentalListings.slice().sort((a, b) => a.price - b.price);
+    get allListings() {
+      return [...FAKE_LISTINGS, ...self.rentalListings];
     },
   }));
