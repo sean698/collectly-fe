@@ -28,23 +28,6 @@ export const HOUSE_TYPES = {
   // OTHERS: "Others",
 };
 
-export const FAKE_LISTINGS = [
-  {
-    id: "1",
-    title: "山上招室友，超低价格只要1100！",
-    location: "SFU",
-    url: "https://c.vanpeople.com/zufang/item-3310433.html",
-    price: 1100,
-    source: SOURCES.VANPEOPLE,
-    bedrooms: 1,
-    bathrooms: 1,
-    type: HOUSE_TYPES.APARTMENT,
-    furnished: true,
-    parking: true,
-    aircon: true,
-    promoted: true,
-    imageUrl: "/fake_listing.jpg",
-  },
-];
+export const FAKE_LISTINGS = [];
 
 export const PAGE_LIMIT = 40;

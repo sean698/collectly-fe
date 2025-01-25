@@ -13,7 +13,7 @@ export const RentalListing = model({
   title: string,
   location: string,
   url: string,
-  price: number,
+  price: maybeNull(number),
   source: string,
   imageUrl: optional(maybeNull(string), null),
   bedrooms: optional(maybeNull(number), null),
