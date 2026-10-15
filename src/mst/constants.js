@@ -1,7 +1,7 @@
 export const SOURCES = {
   CRAIGSLIST: "craigslist",
   KIJIJI: "kijiji",
-  VANPEOPLE: "vanpeople",
+  VANSKY: "vansky",
 };
 
 export const LOCATIONS = {

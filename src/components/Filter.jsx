@@ -13,8 +13,6 @@ import {
   Checkbox,
   ListItemText,
   Button,
-  FormGroup,
-  FormControlLabel,
 } from "@mui/material";
 import { SOURCES, LOCATIONS, HOUSE_TYPES } from "mst/constants";
 
@@ -25,10 +23,6 @@ function Filter() {
   const handlePriceChange = (type) => (event) => {
     const value = event.target.value === "" ? 0 : Number(event.target.value);
     filter.setPriceRange(type, value);
-  };
-
-  const handleFacilityChange = (facility) => (event) => {
-    filter.setFacilities(facility, event.target.checked);
   };
 
   const handleSearch = () => {
@@ -128,37 +122,6 @@ function Filter() {
                 </MenuItem>
               ))}
             </Select>
-          </FormControl>
-          <FormControl component="fieldset">
-            <FormGroup>
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={filter.facilities.parking}
-                    onChange={handleFacilityChange("parking")}
-                  />
-                }
-                label="Parking"
-              />
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={filter.facilities.aircon}
-                    onChange={handleFacilityChange("aircon")}
-                  />
-                }
-                label="Air Conditioning"
-              />
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={filter.facilities.furnished}
-                    onChange={handleFacilityChange("furnished")}
-                  />
-                }
-                label="Furnished"
-              />
-            </FormGroup>
           </FormControl>
           <Stack direction="row" spacing={1}>
             <Button

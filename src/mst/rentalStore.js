@@ -20,7 +20,6 @@ export const RentalStore = model({
         self.currentPage = 1;
         self.hasMore = true;
         self.rentalListings.clear();
-        const { parking, aircon, furnished } = self.filter.facilities;
 
         const filters = {
           minPrice: self.filter.priceRange.min || undefined,
@@ -32,9 +31,6 @@ export const RentalStore = model({
             self.filter.sources.length === Object.values(SOURCES).length
               ? undefined
               : self.filter.sources,
-          parking: parking || undefined,
-          aircon: aircon || undefined,
-          furnished: furnished || undefined,
         };
         const listings = yield getRentalListings(filters);
 
@@ -71,16 +67,12 @@ export const RentalStore = model({
     setSelectedHouseTypes(types) {
       self.filter.houseTypes = types;
     },
-    setSelectedFacilities(facilities) {
-      self.filter.facilities = facilities;
-    },
     loadMoreListings: flow(function* () {
       if (!self.hasMore || self.isLoading) return;
 
       try {
         self.isLoading = true;
         const nextPage = self.currentPage + 1;
-        const { parking, aircon, furnished } = self.filter.facilities;
         const filters = {
           page: nextPage,
           minPrice: self.filter.priceRange.min || undefined,
@@ -92,9 +84,6 @@ export const RentalStore = model({
             self.filter.sources.length === Object.values(SOURCES).length
               ? undefined
               : self.filter.sources,
-          parking: parking || undefined,
-          aircon: aircon || undefined,
-          furnished: furnished || undefined,
         };
         const listings = yield getRentalListings(filters);
 

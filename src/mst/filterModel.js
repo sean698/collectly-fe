@@ -1,7 +1,7 @@
 import { types } from "mobx-state-tree";
 import { SOURCES } from "./constants";
 
-const { model, optional, number, string, array, boolean } = types;
+const { model, optional, number, string, array } = types;
 
 export const defaultFilterState = {
   priceRange: { min: 0, max: 0 },
@@ -9,11 +9,6 @@ export const defaultFilterState = {
   locations: [],
   bedrooms: 0,
   houseTypes: [],
-  facilities: {
-    parking: false,
-    aircon: false,
-    furnished: false,
-  },
 };
 
 export const FilterModel = model({
@@ -25,11 +20,6 @@ export const FilterModel = model({
   locations: optional(array(string), []),
   bedrooms: optional(number, 0),
   houseTypes: optional(array(string), []),
-  facilities: model({
-    parking: optional(boolean, false),
-    aircon: optional(boolean, false),
-    furnished: optional(boolean, false),
-  }),
 }).actions((self) => ({
   setPriceRange(type, value) {
     self.priceRange = {
@@ -54,13 +44,6 @@ export const FilterModel = model({
     self.locations = locations;
   },
 
-  setFacilities(facility, value) {
-    self.facilities = {
-      ...self.facilities,
-      [facility]: value,
-    };
-  },
-
   setFilter(filterData) {
     Object.assign(self, filterData);
   },
@@ -71,6 +54,5 @@ export const FilterModel = model({
     self.locations = [];
     self.bedrooms = 0;
     self.houseTypes = [];
-    self.facilities = { parking: false, aircon: false, furnished: false };
   },
 }));
