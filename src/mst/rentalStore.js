@@ -12,8 +12,12 @@ export const RentalStore = model({
   currentPage: optional(number, 1),
   hasMore: optional(boolean, true),
   isLoading: optional(boolean, false),
+  viewMode: optional(types.enumeration("ViewMode", ["list", "map"]), "list"),
 })
   .actions((self) => ({
+    setViewMode(mode) {
+      self.viewMode = mode;
+    },
     fetchListings: flow(function* () {
       try {
         self.isLoading = true;

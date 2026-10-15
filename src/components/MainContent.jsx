@@ -11,10 +11,14 @@ import {
   Grid,
   CardActionArea,
   Tooltip,
+  ToggleButton,
+  ToggleButtonGroup,
 } from "@mui/material";
 import { TbParkingCircle as ParkingIcon } from "react-icons/tb";
 import { TbAirConditioning as AirconIcon } from "react-icons/tb";
 import { RiSofaLine as SofaIcon } from "react-icons/ri";
+import { FiList, FiMap } from "react-icons/fi";
+import MapView from "components/MapView";
 import theme from "theme";
 
 const labelStyle = {
@@ -32,7 +36,8 @@ const facilityIconStyle = {
 
 function MainContent() {
   const { rentalStore } = useMst();
-  const { allListings, loadMoreListings, isLoading, hasMore } = rentalStore;
+  const { allListings, loadMoreListings, isLoading, hasMore, viewMode } =
+    rentalStore;
   const loadMoreRef = React.useRef(null);
 
   React.useEffect(() => {
@@ -54,8 +59,33 @@ function MainContent() {
 
   return (
     <Container maxWidth="lg">
-      <Box sx={{ mt: 4, mb: 4 }}>
-        <Grid container spacing={2}>
+      <Box
+        sx={{
+          mt: 4,
+          display: "flex",
+          justifyContent: "flex-end",
+        }}
+      >
+        <ToggleButtonGroup
+          value={viewMode}
+          exclusive
+          size="small"
+          onChange={(e, mode) => mode && rentalStore.setViewMode(mode)}
+        >
+          <ToggleButton value="list">
+            <FiList style={{ marginRight: 6 }} /> List
+          </ToggleButton>
+          <ToggleButton value="map">
+            <FiMap style={{ marginRight: 6 }} /> Map
+          </ToggleButton>
+        </ToggleButtonGroup>
+      </Box>
+
+      {viewMode === "map" ? (
+        <MapView />
+      ) : (
+        <Box sx={{ mt: 2, mb: 4 }}>
+          <Grid container spacing={2}>
           {allListings.map((listing) => (
             <Grid item xs={12} sm={6} md={3} key={listing.id}>
               <Card
@@ -269,7 +299,8 @@ function MainContent() {
             )}
           </Box>
         )}
-      </Box>
+        </Box>
+      )}
     </Container>
   );
 }

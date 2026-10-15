@@ -20,6 +20,8 @@ export const RentalListing = model({
   bathrooms: optional(maybeNull(number), null),
   size: optional(maybeNull(number), null),
   type: optional(maybeNull(string), null),
+  latitude: optional(maybeNull(number), null),
+  longitude: optional(maybeNull(number), null),
   createdAt: optional(maybeNull(FirestoreTimestamp), null),
   furnished: optional(maybeNull(boolean), null),
   parking: optional(maybeNull(boolean), null),
